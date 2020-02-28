@@ -1,0 +1,17 @@
+- defaults:
+    link:
+      relink: true
+      create: true
+      recursive: true
+
+- clean: ['~']
+
+- link:
+    ~/.dotfiles: ''
+    ~/.tmux.conf: tmux.conf
+    ~/.config/nvim/init.vim: neovim/init.vim
+    ~/.zshrc: zshrc
+
+- shell:
+  - [git submodule update --init --recursive, Installing submodules]
+
