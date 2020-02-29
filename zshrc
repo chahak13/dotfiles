@@ -1,5 +1,5 @@
 # If you come from bash you might have to change your $PATH.
-# export PATH=$HOME/bin:/usr/local/bin:$PATH
+export PATH=/opt/local/bin:$PATH
 
 # Path to your oh-my-zsh installation.
 export ZSH="/Users/chahakhome/.oh-my-zsh"
@@ -72,7 +72,15 @@ plugins=(git zsh-autosuggestions zsh-syntax-highlighting osx)
 
 ZSH_DISABLE_COMPFIX=true
 source $ZSH/oh-my-zsh.sh
-source /Users/chahakhome/Documents/zsh_env.sh
+
+if [[ -f ~/.dotfiles/zsh_env.sh ]]; then
+    source ~/.dotfiles/zsh_env.sh
+fi
+
+export ZSH_LOCAL=$HOME/.dotfiles/zshrc.local
+if [[ -f $ZSH_LOCAL ]]; then
+    source $ZSH_LOCAL
+fi
 
 # User configuration
 
@@ -95,11 +103,6 @@ source /Users/chahakhome/Documents/zsh_env.sh
 # plugins, and themes. Aliases can be placed here, though oh-my-zsh
 # users are encouraged to define aliases within the ZSH_CUSTOM folder.
 # For a full list of active aliases, run `alias`.
-#
-# Example aliases
-alias zshconfig="nvim ~/.zshrc"
-alias ohmyzsh="nvim ~/.oh-my-zsh"
-alias notebook="jupyter notebook"
-export PATH=/opt/local/bin:$PATH
+
 alias mysql='/usr/local/mysql/bin/mysql'
 alias mysqladmin='/usr/local/mysql/bin/mysqladmin'
