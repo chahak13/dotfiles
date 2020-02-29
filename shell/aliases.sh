@@ -1,3 +1,7 @@
+# Standard aliases
+alias zshconfig='vim ~/.zshrc'
+alias ohmyzshconfig='vim ~/.oh-my-zsh'
+
 # Protect against overwriting
 alias cp='cp -i'
 alias mv='mv -i'
@@ -61,7 +65,7 @@ up()
 # fzf
 if command -v fzf > /dev/null; then
 
-  function fzf-history() {
+    function fzf-history() {
       local tac
       if which tac > /dev/null; then
           tac="tac"
@@ -70,14 +74,14 @@ if command -v fzf > /dev/null; then
       fi
       BUFFER=$(\history -n 1 | fzf)
       CURSOR=$#BUFFER
-  }
+    }
 
-  fh() {
+    fh() {
     print -z $( ([ -n "$ZSH_NAME" ] && fc -l 1 || history) | fzf +s --tac | sed 's/ *[0-9]* *//')
-  }
+    }
 
-  # fkill - kill process
-  fkill() {
+    # fkill - kill process
+    fkill() {
     local pid
     pid=$(ps -ef | sed 1d | fzf -m | awk '{print $2}')
 
@@ -85,20 +89,19 @@ if command -v fzf > /dev/null; then
     then
       echo $pid | xargs kill -${1:-9}
     fi
-  }
+    }
 
-  # v() {
-  #   local file
-  #   file="$(fasd -Rfl "$1" | fzf -1 -0 --no-sort +m)" && vim "${file}" || return 1
-  # }
+    # v() {
+    #   local file
+    #   file="$(fasd -Rfl "$1" | fzf -1 -0 --no-sort +m)" && vim "${file}" || return 1
+    # }
 
-  #less on fuzzy find
-  fl() {
+    #less on fuzzy find
+    fl() {
     less $(fzf)
-  }
+    }
 
-  fv() {
+    fv() {
     nvim $(fzf)
-  }
-
+    }
 fi

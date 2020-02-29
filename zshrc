@@ -15,9 +15,6 @@ ZSH_THEME="spaceship"
 # Uncomment the following line to enable command auto-correction.
 ENABLE_CORRECTION="true"
 
-# Uncomment the following line to display red dots whilst waiting for completion.
-COMPLETION_WAITING_DOTS="true"
-
 # Uncomment the following line if you want to disable marking untracked files
 # under VCS as dirty. This makes repository status check for large repositories
 # much, much faster.
@@ -32,15 +29,6 @@ plugins=(git zsh-autosuggestions zsh-syntax-highlighting osx)
 
 ZSH_DISABLE_COMPFIX=true
 source $ZSH/oh-my-zsh.sh
-
-if [[ -f ~/.dotfiles/shell/aliases.sh ]]; then
-    source ~/.dotfiles/shell/aliases.sh
-fi
-
-export ZSH_LOCAL=$HOME/.dotfiles/shell/zshrc.local
-if [[ -f $ZSH_LOCAL ]]; then
-    source $ZSH_LOCAL
-fi
 # eval "$(fasd --init auto)"
 
 # User configuration
@@ -56,3 +44,21 @@ fi
 # else
 #   export EDITOR='mvim'
 # fi
+export ZSH_LOCAL=$HOME/.dotfiles/shell/zshrc.local
+if [[ -f $ZSH_LOCAL ]]; then
+    source $ZSH_LOCAL
+fi
+
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
+if command -v fzf > /dev/null; then
+    export FZF_DEFAULT_OPTS="--height=40% --min-height=20"
+    export FZF_COMPLETION_TRIGGER='~~'
+    export FZF_COMPLETION_OPTS='+c -x'
+fi
+
+if [[ -f ~/.dotfiles/shell/aliases.sh ]]; then
+    source ~/.dotfiles/shell/aliases.sh
+fi
+
+
