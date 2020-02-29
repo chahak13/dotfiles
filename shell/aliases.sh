@@ -2,9 +2,19 @@
 alias cp='cp -i'
 alias mv='mv -i'
 
+# Mysql aliases
+alias mysql='/usr/local/mysql/bin/mysql'
+alias mysqladmin='/usr/local/mysql/bin/mysqladmin'
+
 # Lazygit
 alias lag='lazygit'
 
+# If available, use nvim as editor. Vim otherwise
+if command -v nvim > /dev/null; then
+    alias vim="nvim"
+fi
+
+# If available, use exa for listing directories
 if command -v exa > /dev/null; then
   alias ls=exa
   alias l="exa -1"
