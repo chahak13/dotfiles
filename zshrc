@@ -1,6 +1,8 @@
 # If you come from bash you might have to change your $PATH.
 export PATH=/opt/local/bin:$PATH
-
+if [[ -d $HOME/.cargo ]]; then
+    export PATH=$HOME/.cargo/bin:$PATH
+fi
 # Path to your oh-my-zsh installation.
 export ZSH="/Users/chahakhome/.oh-my-zsh"
 
@@ -73,14 +75,15 @@ plugins=(git zsh-autosuggestions zsh-syntax-highlighting osx)
 ZSH_DISABLE_COMPFIX=true
 source $ZSH/oh-my-zsh.sh
 
-if [[ -f ~/.dotfiles/zsh_env.sh ]]; then
-    source ~/.dotfiles/zsh_env.sh
+if [[ -f ~/.dotfiles/shell/aliases.sh ]]; then
+    source ~/.dotfiles/shell/aliases.sh
 fi
 
-export ZSH_LOCAL=$HOME/.dotfiles/zshrc.local
+export ZSH_LOCAL=$HOME/.dotfiles/shell/zshrc.local
 if [[ -f $ZSH_LOCAL ]]; then
     source $ZSH_LOCAL
 fi
+# eval "$(fasd --init auto)"
 
 # User configuration
 
