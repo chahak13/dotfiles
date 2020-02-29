@@ -3,6 +3,7 @@
 call plug#begin('~/.neovim/pluggins')
 
 Plug 'neoclide/coc.nvim', {'branch': 'release'}     | " Code Completion
+Plug 'junegunn/fzf', { 'do': './install --bin' }    | " Fzf
 
 Plug 'tpope/vim-commentary'             | " Block commenting
 Plug 'scrooloose/nerdTree'              | " NerdTree
