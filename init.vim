@@ -1,4 +1,5 @@
-source $HOME/dotfiles/neovim/plugins.vim
+" Source plugins
+source $HOME/.dotfiles/neovim/plugins.vim
 
 " Set line number and relative line numbers
 set number
@@ -31,6 +32,8 @@ set splitbelow
 " For regular expressions turn magic on
 set magic
 
+" Set live preview for substitutions
+set inccommand=split
 
 " Show matching brackets when text indicator is over them
 set showmatch 
