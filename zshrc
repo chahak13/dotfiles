@@ -55,6 +55,8 @@ if command -v fzf > /dev/null; then
     export FZF_DEFAULT_OPTS="--height=40% --min-height=20"
     export FZF_COMPLETION_TRIGGER='~~'
     export FZF_COMPLETION_OPTS='+c -x'
+    export FZF_LOCAL=/opt/local/share/fzf/shell/key-bindings.zsh
+    [ -f $FZF_LOCAL ] && source $FZF_LOCAL
 fi
 
 if [[ -f ~/.dotfiles/shell/aliases.sh ]]; then
