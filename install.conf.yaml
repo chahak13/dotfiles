@@ -9,9 +9,10 @@
 - link:
     ~/.dotfiles: ''
     ~/.tmux.conf: tmux.conf
-    ~/.tmux_gruvbox.conf: tmux_gruvbox.conf
-    ~/.config/nvim/init.vim: neovim/init.vim
+    ~/.tmux_gruvbox.conf: tmux/tmux_gruvbox.conf
+    ~/.config/nvim/init.vim: init.vim
     ~/.zshrc: zshrc
+    ~/.hammerspoon: hammerspoon
 
 - shell:
   - [git submodule update --init --recursive, Installing submodules]
