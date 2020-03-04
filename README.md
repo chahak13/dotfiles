@@ -5,5 +5,6 @@ This repository will contain all the dotfiles that I use for my working setup. T
 ## TODO:
 
 - [ ] Configure zsh better, and add helpful aliases
-- [ ] Configure local files to add/override functionality (especially zsh)
+- [x] Configure local files to add/override functionality (especially zsh)
 - [ ] Add screenshots
+- [x] Add Hammerspoon
