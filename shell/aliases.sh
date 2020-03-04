@@ -2,6 +2,8 @@
 alias zshconfig='vim ~/.zshrc'
 alias ohmyzshconfig='vim ~/.oh-my-zsh'
 
+# Open dotfiles directory
+alias dotfiles="cd ~/.dotfiles"
 # Protect against overwriting
 alias cp='cp -i'
 alias mv='mv -i'
