@@ -70,11 +70,11 @@ hs.hotkey.bind({"cmd", "ctrl"}, "Space", function()
 end)
 
 -- Launch or Focus Firefox
-hs.hotkey.bind(hyper, "b", function() 
+hs.hotkey.bind({"cmd", "ctrl"}, "b", function() 
     hs.application.launchOrFocus("Firefox") 
 end)
 
 -- Launch iterm
-hs.hotkey.bind(hyper, "t", function()
+hs.hotkey.bind({"cmd", "ctrl"}, "t", function()
     hs.application.launchOrFocus("iTerm")
 end)
