@@ -8,3 +8,4 @@ This repository will contain all the dotfiles that I use for my working setup. T
 - [x] Configure local files to add/override functionality (especially zsh)
 - [ ] Add screenshots
 - [x] Add Hammerspoon
+- [ ] Add fzf installation
