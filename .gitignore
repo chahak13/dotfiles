@@ -1,2 +1,10 @@
 # Ignore all local file configs
 *.local
+
+# Ignore all ncmpcpp files except the config file
+ncmpcpp/*
+!ncmpcpp/config
+
+# Igore all mpd files except the config file
+mpd/*
+!mpd/mpd.conf

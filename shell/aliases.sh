@@ -4,6 +4,7 @@ alias ohmyzshconfig='vim ~/.oh-my-zsh'
 
 # Open dotfiles directory
 alias dotfiles="cd ~/.dotfiles"
+
 # Protect against overwriting
 alias cp='cp -i'
 alias mv='mv -i'
@@ -14,6 +15,9 @@ alias mysqladmin='/usr/local/mysql/bin/mysqladmin'
 
 # Lazygit
 alias lag='lazygit'
+
+# Ncmpcpp
+alias np='ncmpcpp -b ~/.ncmpcpp/bindings'
 
 # If available, use nvim as editor. Vim otherwise
 if command -v nvim > /dev/null; then

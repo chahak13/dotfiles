@@ -13,6 +13,8 @@
     ~/.config/nvim/init.vim: init.vim
     ~/.zshrc: zshrc
     ~/.hammerspoon: hammerspoon
+    ~/.ncmpcpp: ncmpcpp
+    ~/.mpd: mpd
 
 - shell:
   - [git submodule update --init --recursive, Installing submodules]
