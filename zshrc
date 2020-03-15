@@ -49,14 +49,18 @@ if [[ -f $ZSH_LOCAL ]]; then
     source $ZSH_LOCAL
 fi
 
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+if [[ -f ~/.fzf.zsh ]]; then
+    source ~/.fzf.zsh
+else
+    git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
+    ~/.fzf/install
+    source ~/.fzf.zsh
+fi
 
 if command -v fzf > /dev/null; then
     export FZF_DEFAULT_OPTS="--height=40% --min-height=20"
     export FZF_COMPLETION_TRIGGER='~~'
     export FZF_COMPLETION_OPTS='+c -x'
-    export FZF_LOCAL=/opt/local/share/fzf/shell/key-bindings.zsh
-    [ -f $FZF_LOCAL ] && source $FZF_LOCAL
 fi
 
 if [[ -f ~/.dotfiles/shell/aliases.sh ]]; then
