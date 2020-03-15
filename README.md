@@ -6,12 +6,12 @@ This repository will contain all the dotfiles that I use for my working setup. T
 
 ### Vim
 
-[Vim Home](./images/vim-home.png)
-[Vim Buffers](./images/vim-buffer.png)
+![Vim Home](./images/vim-home.png)
+![Vim Buffers](./images/vim-buffer.png)
 
 ### Tmux
 
-[Tmux panes](./images/tmux-panes.png)
+![Tmux panes](./images/tmux-panes.png)
 
 ## TODO:
 
