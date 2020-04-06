@@ -15,6 +15,7 @@ Plug 'wincent/terminus'                 | " Terminal integration improvements
 Plug 'AndrewRadev/splitjoin.vim'        | " Split and join programming lines
 Plug 'junegunn/vim-peekaboo'            | " Peak at registers
 Plug 'morhetz/gruvbox'                  | " Gruvbox theme
+Plug 'vimwiki/vimwiki'                  | " Vim wiki
 
 call plug#end()
 
