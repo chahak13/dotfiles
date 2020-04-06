@@ -35,6 +35,15 @@ fi
 f() { find . -iname "*$1*" ${@:2} }
 r() { grep "$1" ${@:2} -R . }
 
+# Count files in a folder
+lwc() {
+    local cdir="${1}"
+    if [[ "${1}" == "" ]];then
+        cdir="$(pwd)"
+    fi
+    local count=$(ls $1 | wc -l)
+    echo "Total files in ${cdir}: ${count}"
+}
 # Update dotfiles
 dfu() {
     {
