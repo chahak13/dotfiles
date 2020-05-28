@@ -43,7 +43,19 @@ set mat=2
 
 " :W sudo saves the file 
 " (useful for handling the permission-denied error)
-command W w !sudo tee % > /dev/null
+" command W w !sudo tee % > /dev/null
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Set undo directory
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+if !isdirectory($HOME."/.nvim")
+    call mkdir($HOME."/.nvim", "", 0770)
+endif
+if !isdirectory($HOME."/.nvim/undo-dir")
+    call mkdir($HOME."/.nvim/undo-dir", "", 0700)
+endif
+set undodir=$HOME/.nvim/undo-dir
+set undofile
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Colors and Fonts
