@@ -13,6 +13,7 @@ Plug 'junegunn/vim-peekaboo'            | " Peak at registers
 Plug 'morhetz/gruvbox'                  | " Gruvbox theme
 Plug 'junegunn/fzf.vim'                 | " FZF wrapper for vim
 Plug 'neovim/nvim-lsp'                  | " Neovim LSP
+Plug 'vimwiki/vimwiki'                  | " Vim wiki
 
 call plug#end()
 

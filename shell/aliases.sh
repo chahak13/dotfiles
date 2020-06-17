@@ -9,6 +9,12 @@ alias dotfiles="cd ~/.dotfiles"
 alias cp='cp -i'
 alias mv='mv -i'
 
+# Change tmux directory to save server info
+if ! [[ -d $HOME/.tmux_sessions ]];then
+    mkdir $HOME/.tmux_sessions
+fi
+export TMUX_TMPDIR=$HOME/.tmux_sessions
+
 # Mysql aliases
 alias mysql='/usr/local/mysql/bin/mysql'
 alias mysqladmin='/usr/local/mysql/bin/mysqladmin'
@@ -35,6 +41,15 @@ fi
 f() { find . -iname "*$1*" ${@:2} }
 r() { grep "$1" ${@:2} -R . }
 
+# Count files in a folder
+lwc() {
+    local cdir="${1}"
+    if [[ "${1}" == "" ]];then
+        cdir="$(pwd)"
+    fi
+    local count=$(ls $1 | wc -l)
+    echo "Total files in ${cdir}: ${count}"
+}
 # Update dotfiles
 dfu() {
     {
