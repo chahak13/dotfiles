@@ -5,6 +5,9 @@ source $HOME/.dotfiles/neovim/plugins.vim
 set number
 set relativenumber
 
+" Set mouse compatibility in normal and visual mode
+set mouse=nvi
+
 " Set Column margin at 80 characters
 set colorcolumn=80 
 hi ColorColumn ctermbg=lightgrey
@@ -21,6 +24,10 @@ set autoread
 
 " Set mapleader for key combination strokes
 let mapleader = ","
+
+" Set cursor row and column highlighting
+set cursorcolumn
+set cursorline
 
 " Hide an abandoned buffer 
 set hid
@@ -40,10 +47,6 @@ set showmatch
 
 " How many tenths of a second to blink when matching brackets
 set mat=2
-
-" :W sudo saves the file 
-" (useful for handling the permission-denied error)
-" command W w !sudo tee % > /dev/null
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Set undo directory
@@ -212,19 +215,10 @@ let g:goyo_margin_top = 2
 let g:goyo_margin_bottom = 2
 nnoremap <silent> <leader>z :Goyo<cr>
 
-" Quit term buffer with ESC
-" augroup TermHandling
-"   autocmd!
-"   " Turn off line numbers, listchars, auto enter insert mode and map esc to
-"   " exit insert mode
-"   autocmd TermOpen * setlocal listchars= nonumber norelativenumber
-"     \ | startinsert
-"     \ | tnoremap <Esc> <c-c>
-"     \ | IndentGuidesDisable
-"   autocmd! TermClose * IndentGuidesEnable
-"   autocmd! FileType fzf call LayoutTerm(0.5, 'horizontal')
-"   autocmd! FileType neoterm call LayoutTerm(0.5, 'horizontal')
-" augroup END
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Functions for opening lazygit in neovim
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 function! GetTime()
   return str2float(reltimestr(reltime())) * 1000.0
@@ -269,8 +263,7 @@ endfunction
 let g:NERDTreeWinPos = "right"
 let NERDTreeShowHidden=0
 let NERDTreeIgnore = ['\.pyc$', '__pycache__']
-let g:NERDTreeWinSize=35
-map <leader>nn :NERDTreeToggle<cr>
+let g:NERDTreeWinSize=35 map <leader>nn :NERDTreeToggle<cr>
 map <leader>nb :NERDTreeFromBookmark<Space>
 map <leader>nf :NERDTreeFind<cr>
 
@@ -281,5 +274,5 @@ map <leader>nf :NERDTreeFind<cr>
 nnoremap <silent> gd    <cmd>lua vim.lsp.buf.declaration()<CR>
 nnoremap <silent> <c-]> <cmd>lua vim.lsp.buf.definition()<CR>
 nnoremap <silent> K     <cmd>lua vim.lsp.buf.hover()<CR>
-nnoremap <silent> <c-k> <cmd>lua vim.lsp.buf.signature_help()<CR>
-autocmd Filetype python setlocal omnifunc=v:lua.vim.lsp.omnifunc
+" nnoremap <silent> <c-k> <cmd>lua vim.lsp.buf.signature_help()<CR>
+autocmd Filetype * setlocal omnifunc=v:lua.vim.lsp.omnifunc
