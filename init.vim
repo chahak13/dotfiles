@@ -67,12 +67,13 @@ set undofile
 syntax enable 
 
 " Enable 256 colors palette in Gnome Terminal
-if $COLORTERM == 'gnome-terminal'
-    set t_Co=256
-endif
+" if $COLORTERM == 'gnome-terminal'
+"     set t_Co=256
+" endif
+set t_Co=256
 
 try
-    colorscheme gruvbox
+    colorscheme srcery
 catch
 endtry
 
@@ -263,7 +264,8 @@ endfunction
 let g:NERDTreeWinPos = "right"
 let NERDTreeShowHidden=0
 let NERDTreeIgnore = ['\.pyc$', '__pycache__']
-let g:NERDTreeWinSize=35 map <leader>nn :NERDTreeToggle<cr>
+let g:NERDTreeWinSize = 35 
+map <leader>nn :NERDTreeToggle<cr>
 map <leader>nb :NERDTreeFromBookmark<Space>
 map <leader>nf :NERDTreeFind<cr>
 
