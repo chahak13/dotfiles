@@ -30,7 +30,7 @@ set cursorcolumn
 set cursorline
 
 " Hide an abandoned buffer 
-set hid
+set hidden
 
 " New buffer will be created on the right or below current buffer"
 set splitright

@@ -12,6 +12,7 @@ Plug 'junegunn/vim-peekaboo'            | " Peak at registers
 Plug 'junegunn/fzf.vim'                 | " FZF wrapper for vim
 Plug 'neovim/nvim-lsp'                  | " Neovim LSP
 Plug 'srcery-colors/srcery-vim'         | " Srcery colorscheme
+Plug 'mhinz/vim-startify'               | " Vim start screen
 
 call plug#end()
 
