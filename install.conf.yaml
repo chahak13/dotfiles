@@ -12,7 +12,6 @@
     ~/.tmux_gruvbox.conf: tmux/tmux_gruvbox.conf
     ~/.config/nvim/init.vim: init.vim
     ~/.zshrc: zshrc
-    ~/.hammerspoon: hammerspoon
     ~/.ncmpcpp: ncmpcpp
     ~/.mpd: mpd
 
