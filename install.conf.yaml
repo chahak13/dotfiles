@@ -14,6 +14,12 @@
     ~/.zshrc: zshrc
     ~/.ncmpcpp: ncmpcpp
     ~/.mpd: mpd
+    ~/.config/bspwm: config/bspwm
+    ~/.config/kitty: config/kitty
+    ~/.config/picom: config/picom
+    ~/.config/polybar: config/polybar
+    ~/.config/rofi: config/rofi
+    ~/.config/sxhkd: config/sxhkd
 
 - shell:
   - [git submodule update --init --recursive, Installing submodules]

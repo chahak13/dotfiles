@@ -1,0 +1,27 @@
+#! /bin/sh
+
+pgrep -x sxhkd > /dev/null || sxhkd &
+
+bspc monitor -d I II III IV V
+bspc monitor HDMI-2 -d VI VII VIII IX X
+
+if [ -x /usr/bin/picom ];then
+    picom --experimental-backends &
+fi
+
+if [ -x /usr/bin/polybar ];then
+    bash $HOME/.config/polybar/launch.sh
+fi
+
+bspc config border_width         2
+bspc config window_gap           5
+
+bspc config split_ratio          0.5
+bspc config borderless_monocle   true
+bspc config gapless_monocle      true
+
+bspc rule -a Gimp desktop='^8' state=floating follow=on
+# bspc rule -a firefox desktop='^2' follow=on focus=on
+bspc rule -a mplayer2 state=floating
+bspc rule -a Kupfer.py focus=on
+bspc rule -a Screenkey manage=off

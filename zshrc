@@ -67,4 +67,4 @@ if [[ -f ~/.dotfiles/shell/aliases.sh ]]; then
     source ~/.dotfiles/shell/aliases.sh
 fi
 
-
+source ~/.zprofile
