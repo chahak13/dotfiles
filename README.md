@@ -13,10 +13,3 @@ This repository will contain all the dotfiles that I use for my working setup. T
 
 ![Tmux panes](./images/tmux-panes.png)
 
-## TODO:
-
-- [ ] Configure zsh better, and add helpful aliases
-- [x] Configure local files to add/override functionality (especially zsh)
-- [ ] Add screenshots
-- [x] Add Hammerspoon
-- [x] Add fzf installation
