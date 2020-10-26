@@ -13,7 +13,7 @@ Plug 'junegunn/fzf.vim'                 | " FZF wrapper for vim
 Plug 'neovim/nvim-lsp'                  | " Neovim LSP
 Plug 'srcery-colors/srcery-vim'         | " Srcery colorscheme
 Plug 'mhinz/vim-startify'               | " Vim start screen
-
+Plug 'arcticicestudio/nord-vim'         | " Nord colorscheme
 call plug#end()
 
 " lsp specific config
