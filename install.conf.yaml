@@ -20,6 +20,7 @@
     ~/.config/polybar: config/polybar
     ~/.config/rofi: config/rofi
     ~/.config/sxhkd: config/sxhkd
+    ~/.p10k.zsh: shell/p10k.zsh
 
 - shell:
   - [git submodule update --init --recursive, Installing submodules]
