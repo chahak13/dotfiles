@@ -20,7 +20,11 @@ alias mysql='/usr/local/mysql/bin/mysql'
 alias mysqladmin='/usr/local/mysql/bin/mysqladmin'
 
 # Lazygit
-alias lag='lazygit'
+if [[ $TERM == "tmux-256color" ]]; then
+    alias lag='TERM=xterm-kitty lazygit'
+else
+    alias lag='lazygit'
+fi
 
 # Ncmpcpp
 alias np='ncmpcpp -b ~/.ncmpcpp/bindings'
