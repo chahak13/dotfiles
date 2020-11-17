@@ -175,13 +175,19 @@ endif
 nnoremap <silent> <Leader>' :call OpenTerm('lazygit', 0.8)<CR>
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => FZF
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Open files
+nnoremap <silent> <Leader>f :Files<CR>
+nnoremap <silent> <Leader>b :Buffers<CR>
+nnoremap <silent> <leader><space> :Rg 
+nnoremap <silent> W :W<CR>
+"
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Misc
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Remove the Windows ^M - when the encodings gets messed up
 noremap <Leader>m mmHmt:%s/<C-V><cr>//ge<cr>'tzt'm
-
-" Quickly open a buffer for scribble
-map <leader>q :split ~/notes.txt<cr>
 
 " Quickly open a markdown buffer for scribble
 map <leader>x :split ~/notes.md<cr>
