@@ -8,3 +8,6 @@ ncmpcpp/*
 # Igore all mpd files except the config file
 mpd/*
 !mpd/mpd.conf
+
+# Ignore pdfs
+*.pdf
