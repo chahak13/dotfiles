@@ -24,3 +24,4 @@ ToDo
 - [ ] Add steps for installing Arch
 - [ ] Add list of important packages and their installation guides
 - [ ] Create an ``install.sh`` to automate the post-OS installation process.
+- [ ] Shift to `paru <https://github.com/morganamilo/paru>`_ to remove dependency of ``go`` just for ``yay``
