@@ -58,7 +58,7 @@ font-2 = siji:pixelsize=10;1
 
 modules-left = bspwm
 ; modules-center = mpd
-modules-right = filesystem pulseaudio xkeyboard memory cpu wlan eth battery temperature date powermenu
+modules-right = filesystem pulseaudio memory cpu wlan eth battery temperature date powermenu
 
 tray-position = right
 tray-padding = 2
@@ -108,7 +108,7 @@ font-2 = siji:pixelsize=10;1
 
 modules-left = bspwm
 ; modules-center = mpd
-modules-right = filesystem pulseaudio xkeyboard memory cpu wlan eth battery temperature date powermenu
+modules-right = filesystem pulseaudio memory cpu wlan eth battery temperature date powermenu
 
 tray-position = right
 tray-padding = 2
@@ -153,8 +153,10 @@ type = internal/fs
 interval = 25
 
 mount-0 = /
+mount-1 = /home
 
-label-mounted = %{F#0a81f5}%mountpoint%%{F-}: %percentage_used%%
+; label-mounted = %{F#0a81f5}%mountpoint%%{F-}: %percentage_used%%
+label-mounted = %{F#0a81f5}%mountpoint%:%{F-} %used%/%total%
 label-unmounted = %mountpoint% not mounted
 label-unmounted-foreground = ${colors.foreground-alt}
 
@@ -347,11 +349,11 @@ battery = BAT1
 adapter = ADP1
 full-at = 100
 
-format-charging = <animation-charging> <label-charging>
-format-charging-underline = #ffb52a
+format-charging = <ramp-capacity> <label-charging>
+format-charging-underline = #ffffff
 
-format-discharging = <animation-discharging> <label-discharging>
-format-discharging-underline = ${self.format-charging-underline}
+format-discharging = <ramp-capacity> <label-discharging>
+format-discharging-underline = #ffb52a
 
 format-full-prefix = " "
 format-full-prefix-foreground = ${colors.foreground-alt}
