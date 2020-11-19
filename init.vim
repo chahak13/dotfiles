@@ -168,7 +168,8 @@ fun! CleanExtraSpaces()
 endfun
 
 if has("autocmd")
-    autocmd BufWritePre *.txt,*.js,*.py,*.wiki,*.sh,*.coffee :call CleanExtraSpaces()
+    autocmd BufWritePre *.txt,*.js,*.py,*.wiki,*.sh,*.coffee,*.rst :call CleanExtraSpaces()
+    autocmd BufWritePost *.rst silent :!rst2pdf %
 endif
 
 " LazyGit
@@ -283,4 +284,4 @@ nnoremap <silent> gd    <cmd>lua vim.lsp.buf.declaration()<CR>
 nnoremap <silent> <c-]> <cmd>lua vim.lsp.buf.definition()<CR>
 nnoremap <silent> K     <cmd>lua vim.lsp.buf.hover()<CR>
 " nnoremap <silent> <c-k> <cmd>lua vim.lsp.buf.signature_help()<CR>
-autocmd Filetype * setlocal omnifunc=v:lua.vim.lsp.omnifunc
+autocmd Filetype *.py setlocal omnifunc=v:lua.vim.lsp.omnifunc
