@@ -28,49 +28,58 @@ It contains various basic packages that I use almost everyday. A list of which i
 Package List
 ~~~~~~~~~~~~
 
-#. `BSPWM <https://github.com/baskerville/bspwm>`_
+`BSPWM <https://github.com/baskerville/bspwm>`_
+"""""""""""""""""""""""""""""""""""""""""""""""
 
-    I don't use a DE since I prefer to install stuff myself. I use BSPWM as
-    Tiling Windows Manager. It's written in C and it follows the *"Do what you
-    do good"* policy. It only responds to X events and the messages that it
-    receives on a dedicated socket.
+I don't use a DE since I prefer to install stuff myself. I use BSPWM as
+Tiling Windows Manager. It's written in C and it follows the *"Do what you
+do good"* policy. It only responds to X events and the messages that it
+receives on a dedicated socket.
 
-    The ``bspc`` program is used to write message on the socket.
+The ``bspc`` program is used to write message on the socket.
 
-    BSPWM doesn't handle any keyboard or pointer inputs and requires a third
-    party program in order to translate such events to ``bspc`` invocations.
-    The author of BSPWM has also written a tool for this too - `sxhkd <https://github.com/baskerville/sxhkd>`_
+BSPWM doesn't handle any keyboard or pointer inputs and requires a third
+party program in order to translate such events to ``bspc`` invocations.
+The author of BSPWM has also written a tool for this too - `sxhkd <https://github.com/baskerville/sxhkd>`_
 
 
-    To install bspwm, run
+To install bspwm, run
 
-    .. code-block:: bash
+.. code-block:: bash
 
-        yay -S bspwm
+    yay -S bspwm
 
-#. `SXHKD <https://github.com/baskerville/sxhkd>`_
+`SXHKD <https://github.com/baskerville/sxhkd>`_
+"""""""""""""""""""""""""""""""""""""""""""""""
 
-    SXHKD is a hotkey X daemon that reacts to input events by executing commands.
-    It can be configured by defining a series of keybindings and their
-    associations with input events. The format of the configurations can be
-    found at the github link in the section title.
+SXHKD is a hotkey X daemon that reacts to input events by executing commands.
+It can be configured by defining a series of keybindings and their
+associations with input events. The format of the configurations can be
+found at the github link in the section title.
 
-    Make sure that you install sxhkd along with bspwm since without sxhkd, bspwm
-    is useless.
+Make sure that you install sxhkd along with bspwm since without sxhkd, bspwm
+is useless.
 
-    To install sxhkd, run
+To install sxhkd, run
 
-    .. code-block:: bash
+.. code-block:: bash
 
-        yay -S sxhkd
+    yay -S sxhkd
 
-#. Kitty Terminal Emulator
-#. Polybar
-#. Firefox
-#. Pulseaudio
-#. PcManFM
-#. Arc-Dark-Theme
-#. Pipenv
+Kitty Terminal Emulator
+"""""""""""""""""""""""
+Polybar
+"""""""
+Firefox
+"""""""
+Pulseaudio
+""""""""""
+PcManFM
+"""""""
+Arc-Dark-Theme
+""""""""""""""
+Pipenv
+""""""
 
 
 ToDo
