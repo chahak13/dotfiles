@@ -70,6 +70,10 @@ if command -v fzf > /dev/null; then
     export FZF_COMPLETION_OPTS='+c -x'
 fi
 
+if command -v bat > /dev/null; then
+    export MANPAGER=bat
+fi
+
 if [[ -f ~/.dotfiles/shell/aliases.sh ]]; then
     source ~/.dotfiles/shell/aliases.sh
 fi
