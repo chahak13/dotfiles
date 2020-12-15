@@ -4,11 +4,19 @@
 
 # terminal emulator
 super + Return
-	kitty
+    kitty
 
 # scratchpad-tdrop. Calls a drop-down terminal
 alt + s
-    tdrop -m -a -w 50% -h 40% -x 25% -y 10 -s dropdown kitty
+    tdrop -m -a -w 50% -h 40% -x 25% -y 5% -s dropdown kitty
+
+# Launch Emacs
+super + e
+    emacsclient --create-frame --alternate-editor=""
+
+# Launch Firefox
+super + b
+    firefox
 
 # program launcher
 alt + d
