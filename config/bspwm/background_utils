@@ -1,0 +1,53 @@
+#!/usr/bin/env bash
+
+_display_background() {
+    case "$1" in
+        light)
+            feh --no-fehbg --bg-scale $HOME/Pictures/Wallpapers/tim-zankert-1YFt4rpHKp0-unsplash.jpg
+            ;;
+        dark)
+            feh --no-fehbg --bg-scale $HOME/Pictures/Wallpapers/vox-machina.jpg --bg-scale $HOME/Pictures/Wallpapers/mighty-nein.jpg
+            ;;
+    esac
+}
+
+_set_wallpaper() {
+    hour=$(timedatectl status | awk '/Local/ {print $5}' | cut -d':' -f1)
+    if [[ hour -lt 17 && hour -gt 10 ]]; then
+        if [[ $current != "light" ]]; then
+            _display_background light
+        fi
+        echo "light"
+    else
+        if [[ $current != "dark" ]]; then
+            _display_background dark
+        fi
+        echo "dark"
+    fi
+}
+
+_toggle_wallpaper() {
+    if [[ $1 == "light" ]]; then
+        _display_background dark
+        echo "dark"
+    else
+        _display_background light
+        echo "light"
+    fi
+}
+
+case $1 in
+    wallpaper)
+        current=$(_set_wallpaper)
+        echo $current > /tmp/wallpaper_theme
+        ;;
+    toggle)
+        current=$(</tmp/wallpaper_theme)
+        current=$(_toggle_wallpaper $current)
+        echo $current > /tmp/wallpaper_theme
+        ;;
+    *)
+        echo "Please provide an argument (wallpaper|toggle)"
+esac
+
+
