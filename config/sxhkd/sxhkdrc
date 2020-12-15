@@ -131,6 +131,6 @@ super + {Left,Down,Up,Right}
 
 #Brightness control
 XF86MonBrightnessDown
-    brightnessctl -d "intel_backlight" set 10-
+    brightnessctl -d "intel_backlight" set 5-
 XF86MonBrightnessUp
-    brightnessctl -d "intel_backlight" set 10+
+    brightnessctl -d "intel_backlight" set 5+
