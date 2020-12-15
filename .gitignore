@@ -11,3 +11,11 @@ mpd/*
 
 # Ignore pdfs
 *.pdf
+
+# Ignore testing directory
+testing/*
+
+# Ignore all emacs temporary files
+\#*\#
+*~
+*.\#*
