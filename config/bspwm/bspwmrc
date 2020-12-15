@@ -1,16 +1,33 @@
-#! /bin/sh
+#!/usr/bin/env bash
 
+_check() {
+    command -v "$1" > /dev/null
+}
+
+setxkbmap -option caps:ctrl_modifier
 pgrep -x sxhkd > /dev/null || sxhkd &
 
-bspc monitor -d I II III IV V
-bspc monitor HDMI-2 -d VI VII VIII IX X
-
-if [ -x /usr/bin/picom ];then
-    picom --experimental-backends &
+external_monitor=$(xrandr --query | grep 'HDMI-2' | cut -d' ' -f2)
+if [[ $external_monitor == "disconnected" ]]; then
+    bspc monitor -d I II III IV V VI VII VIII IX X
+else
+    bspc monitor -d I II III IV V
+    bspc monitor HDMI-2 -d VI VII VIII IX X
 fi
 
-if [ -x /usr/bin/polybar ];then
+if _check feh; then
+    if [ -n $HOME/.config/bspwm/background_utils ]; then
+	$HOME/.config/bspwm/background_utils wallpaper
+    fi
+fi
+
+bspc rule -a Polybar layer=lower
+if _check polybar;then
     bash $HOME/.config/polybar/launch.sh
+fi
+
+if _check picom;then
+    picom --experimental-backends &
 fi
 
 bspc config border_width            2
@@ -18,11 +35,14 @@ bspc config window_gap              10
 bspc config focused_border_color    '#c74072'
 
 bspc config split_ratio          0.5
-bspc config borderless_monocle   true
+bspc config borderless_monocle   false
 bspc config gapless_monocle      true
 
-bspc rule -a Gimp desktop='^8' state=floating follow=on
-# bspc rule -a firefox desktop='^2' follow=on focus=on
-bspc rule -a mplayer2 state=floating
-bspc rule -a Kupfer.py focus=on
-bspc rule -a Screenkey manage=off
+bspc rule -a TelegramDesktop desktop=^8 state=floating centered=true rectangle=200x100
+bspc rule -a Emacs desktop=^7 state=fullscreen follow=on
+bspc rule -a Matplotlib state=floating
+bspc rule -a matplotlib state=floating
+
+if _check emacs; then
+    emacs --daemon
+fi
