@@ -17,7 +17,7 @@ fi
 
 if _check feh; then
     if [ -n $HOME/.config/bspwm/background_utils ]; then
-	$HOME/.config/bspwm/background_utils wallpaper
+	$HOME/.config/bin/background_utils wallpaper
     fi
 fi
 
