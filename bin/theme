@@ -1,5 +1,9 @@
 #!/usr/bin/env bash
 
+_check() {
+    command -v "$1" > /dev/null
+}
+
 _display_background() {
     case "$1" in
         light)
@@ -27,27 +31,48 @@ _set_wallpaper() {
 }
 
 _toggle_wallpaper() {
-    if [[ $1 == "light" ]]; then
-        _display_background dark
-        echo "dark"
-    else
-        _display_background light
-        echo "light"
+    case "$1" in
+	light)
+	    _display_background dark
+	    echo "dark"
+	    ;;
+	dark)
+	    _display_background light
+	    echo "light"
+	    ;;
+    esac
+}
+
+_set_emacs_theme() {
+    if _check emacsclient; then
+	case "$1" in
+	    light)
+		local update=$(emacsclient --alternate-editor="" --eval "(load-theme 'modus-operandi)")
+		echo ${update}
+		;;
+	    dark)
+		local update=$(emacsclient --alternate-editor="" --eval "(load-theme 'modus-vivendi)")
+		echo ${update}
+		;;
+	esac
     fi
 }
 
+
 case $1 in
-    wallpaper)
+    reset)
         current=$(_set_wallpaper)
-        echo $current > /tmp/wallpaper_theme
+	_set_emacs_theme $current
+	echo $current > /tmp/theme
         ;;
     toggle)
-        current=$(</tmp/wallpaper_theme)
-        current=$(_toggle_wallpaper $current)
-        echo $current > /tmp/wallpaper_theme
+        current=$(</tmp/theme)
+        new=$(_toggle_wallpaper $current)
+	_set_emacs_theme $new
+        echo $new > /tmp/theme
         ;;
     *)
-        echo "Please provide an argument (wallpaper|toggle)"
+        echo "Please provide a valid argument (reset|toggle)"
 esac
 
 
