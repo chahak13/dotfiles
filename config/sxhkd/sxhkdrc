@@ -25,7 +25,7 @@ super + b
     firefox
 
 # Lock screen using slock
-super + l
+super + alt + l
     slock
 
 # program launcher
