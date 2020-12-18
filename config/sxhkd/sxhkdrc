@@ -1,13 +1,19 @@
 #
 # wm independent hotkeys
 #
+# Configuration:
+# Return = terminal
+# d = dropdown terminal
+# e = preferred *editor* at any point of time
+# b = browser
+# p = program launcher
 
 # terminal emulator
 super + Return
     kitty
 
 # scratchpad-tdrop. Calls a drop-down terminal
-alt + s
+alt + d
     tdrop -m -a -w 50% -h 40% -x 25% -y 5% -s dropdown kitty
 
 # Launch Emacs
@@ -19,12 +25,12 @@ super + b
     firefox
 
 # program launcher
-alt + d
+alt + p
 	rofi -combi-modi window,drun,run,ssh,keys -show combi -modi combi -show-icons
 
 # make sxhkd reload its configuration files:
 super + Escape
-	pkill -USR1 -x sxhkd
+	pkill -USR1 -x sxhkd && notify-send -- "SXHKD" "Reloaded key bindings"
 
 #
 # bspwm hotkeys
@@ -82,9 +88,9 @@ super + {_,shift + }c
 super + bracket{left,right}
 	bspc desktop -f {prev,next}.local
 
-# focus the last node/desktop
-super + {grave,Tab}
-	bspc {node,desktop} -f last
+# focus the last desktop
+super + Tab
+	bspc desktop -f last
 
 # focus the older or newer node in the focus history
 super + {o,i}
