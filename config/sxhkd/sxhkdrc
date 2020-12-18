@@ -24,6 +24,10 @@ super + e
 super + b
     firefox
 
+# Lock screen using slock
+super + l
+    slock
+
 # program launcher
 alt + p
 	rofi -combi-modi window,drun,run,ssh,keys -show combi -modi combi -show-icons
