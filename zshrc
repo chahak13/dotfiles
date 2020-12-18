@@ -45,12 +45,7 @@ source $ZSH/oh-my-zsh.sh
 # You may need to manually set your language environment
 # export LANG=en_US.UTF-8
 
-# Preferred editor for local and remote sessions
-# if [[ -n $SSH_CONNECTION ]]; then
-#   export EDITOR='vim'
-# else
-#   export EDITOR='mvim'
-# fi
+
 export ZSH_LOCAL=$HOME/.dotfiles/shell/zshrc.local
 if [[ -f $ZSH_LOCAL ]]; then
     source $ZSH_LOCAL
@@ -78,6 +73,8 @@ if [[ -f ~/.dotfiles/shell/aliases.sh ]]; then
     source ~/.dotfiles/shell/aliases.sh
 fi
 
+export XDG_CONFIG_HOME="$HOME/.config/"
+export PATH="$XDG_CONFIG_HOME/bin":$PATH
 source ~/.zprofile
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.

@@ -21,6 +21,8 @@
     ~/.config/rofi: config/rofi
     ~/.config/sxhkd: config/sxhkd
     ~/.p10k.zsh: shell/p10k.zsh
+    ~/.config/bin: bin
+    ~/.config/dunst: dunst
 
 - shell:
   - [git submodule update --init --recursive, Installing submodules]
