@@ -44,7 +44,7 @@ _toggle_wallpaper() {
 }
 
 _set_emacs_theme() {
-    if _check emacsclient; then
+    if [[ $(ps -ef | grep "[e]macs --daemon") ]]; then
 	case "$1" in
 	    light)
 		local update=$(emacsclient --alternate-editor="" --eval "(load-theme 'modus-operandi)")
