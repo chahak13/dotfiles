@@ -1,4 +1,7 @@
-#!/usr/bin/env bash
+#!/usr/bin/bash
+
+set -o errexit
+set -o pipefail
 
 _check() {
     command -v "$1" > /dev/null
@@ -16,43 +19,53 @@ _display_background() {
 }
 
 _set_wallpaper() {
-    hour=$(timedatectl status | awk '/Local/ {print $5}' | cut -d':' -f1)
+    local hour=$(timedatectl status | awk '/Local/ {print $5}' | cut -d':' -f1)
+    local current=$(</tmp/theme)
     if [[ hour -lt 17 && hour -gt 10 ]]; then
         if [[ $current != "light" ]]; then
-            _display_background light
+            _display_background "light"
         fi
-        echo "light"
+        echo "light" > /tmp/theme
+	
     else
         if [[ $current != "dark" ]]; then
-            _display_background dark
+            _display_background "dark"
         fi
-        echo "dark"
+        echo "dark" > /tmp/theme
     fi
 }
 
 _toggle_wallpaper() {
-    case "$1" in
+    local current=$(</tmp/theme)
+    case "${current}" in
 	light)
-	    _display_background dark
-	    echo "dark"
+	    _display_background "dark"
+	    echo "dark" > /tmp/theme
 	    ;;
+
 	dark)
-	    _display_background light
-	    echo "light"
+	    _display_background "light"
+	    echo "light" > /tmp/theme
+	    ;;
+
+	*)
+	    notify-send --urgency=critical -- "THEME" "No theme set in /tmp/theme"
 	    ;;
     esac
 }
 
 _set_emacs_theme() {
+    local theme_to_set=$(</tmp/theme)
     if [[ $(ps -ef | grep "[e]macs --daemon") ]]; then
-	case "$1" in
+	case "${theme_to_set}" in
 	    light)
-		local update=$(emacsclient --alternate-editor="" --eval "(load-theme 'modus-operandi)")
-		echo ${update}
+		emacsclient --alternate-editor="" --eval "(load-theme 'modus-operandi)"
+		return $?
 		;;
+
 	    dark)
-		local update=$(emacsclient --alternate-editor="" --eval "(load-theme 'modus-vivendi)")
-		echo ${update}
+		emacsclient --alternate-editor="" --eval "(load-theme 'modus-vivendi)"
+		return $?
 		;;
 	esac
     fi
@@ -61,18 +74,13 @@ _set_emacs_theme() {
 
 case $1 in
     reset)
-        current=$(_set_wallpaper)
-	_set_emacs_theme $current
-	echo $current > /tmp/theme
+        _set_wallpaper && _set_emacs_theme
+	notify-send -- "Theme" "Theme reset because of change in time"
         ;;
     toggle)
-        current=$(</tmp/theme)
-        new=$(_toggle_wallpaper $current)
-	_set_emacs_theme $new
-        echo $new > /tmp/theme
+	_toggle_wallpaper && _set_emacs_theme
+	notify-send -- "Theme" "Toggled theme"
         ;;
     *)
         echo "Please provide a valid argument (reset|toggle)"
 esac
-
-
