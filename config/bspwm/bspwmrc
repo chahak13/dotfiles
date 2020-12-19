@@ -19,7 +19,7 @@ if [[ $external_monitor == "disconnected" ]]; then
     bspc monitor eDP-1 --reset-desktops I II III IV V VI VII VIII IX X
 else
     bspc monitor eDP-1 --reset-desktops I II III IV V
-    bspc monitor HDMI-2 --reset-desktops IV V VI VII VIII IX X
+    bspc monitor HDMI-2 --reset-desktops VI VII VIII IX X
 fi
 
 # BSPWM Configurations and rules
