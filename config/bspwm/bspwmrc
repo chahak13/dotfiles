@@ -46,8 +46,12 @@ if _check sxhkd; then
     pgrep -x sxhkd > /dev/null || sxhkd &
 fi
 
-if [[ $(ps -ef | grep "[e]macs --daemon") ]]; then
-    emacs --daemon
+if _check emacs; then
+    ps -ef | grep "[e]macs --daemon" ]] || emacs --daemon
+fi
+
+if _check dunst; then
+    pgrep -x dunst > /dev/null || dunst &
 fi
 
 if _check feh; then
@@ -64,6 +68,3 @@ if _check polybar;then
     bash $HOME/.config/polybar/launch.sh
 fi
 
-if _check dunst; then
-    pgrep -x dunst > /dev/null || dunst &
-fi
