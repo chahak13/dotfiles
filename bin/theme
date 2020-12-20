@@ -59,13 +59,12 @@ _set_emacs_theme() {
     if [[ $(ps -ef | grep "[e]macs --daemon") ]]; then
 	case "${theme_to_set}" in
 	    light)
-		emacsclient --alternate-editor="" --eval "(load-theme 'modus-operandi)"
-		return $?
+		emacsclient --alternate-editor="" --eval "(cm/load-theme 'modus-operandi)" \
+			    && notify-send -- "Emacs" "Set light theme"
 		;;
-
 	    dark)
-		emacsclient --alternate-editor="" --eval "(load-theme 'modus-vivendi)"
-		return $?
+		emacsclient --alternate-editor="" --eval "(cm/load-theme 'modus-vivendi)" \
+			    && notify-send -- "Emacs" "Set dark theme"
 		;;
 	esac
     fi
@@ -74,12 +73,14 @@ _set_emacs_theme() {
 
 case $1 in
     reset)
-        _set_wallpaper && _set_emacs_theme
-	notify-send -- "Theme" "Theme reset because of change in time"
+        _set_wallpaper\
+	    && _set_emacs_theme\
+	    && notify-send -- "Theme" "Theme reset because of change in time"
         ;;
     toggle)
-	_toggle_wallpaper && _set_emacs_theme
-	notify-send -- "Theme" "Toggled theme"
+	_toggle_wallpaper\
+	    && _set_emacs_theme\
+	    && notify-send -- "Theme" "Toggled theme"
         ;;
     *)
         echo "Please provide a valid argument (reset|toggle)"
