@@ -266,18 +266,6 @@ endfunction
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => Nerd Tree
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-let g:NERDTreeWinPos = "right"
-let NERDTreeShowHidden=0
-let NERDTreeIgnore = ['\.pyc$', '__pycache__']
-let g:NERDTreeWinSize = 35 
-map <leader>nn :NERDTreeToggle<cr>
-map <leader>nb :NERDTreeFromBookmark<Space>
-map <leader>nf :NERDTreeFind<cr>
-
-
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Nvim-lsp
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 nnoremap <silent> gd    <cmd>lua vim.lsp.buf.declaration()<CR>

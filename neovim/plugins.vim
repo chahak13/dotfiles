@@ -5,7 +5,6 @@ call plug#begin('~/.neovim/pluggins')
 Plug 'junegunn/fzf', { 'do': './install --bin' }    | " Fzf
 
 Plug 'tpope/vim-commentary'             | " Block commenting
-Plug 'scrooloose/nerdTree'              | " NerdTree
 Plug 'machakann/vim-sandwich'           | " Add/delete/replace text surroundings
 Plug 'junegunn/goyo.vim'                | " Goyo for zen mode
 Plug 'junegunn/vim-peekaboo'            | " Peak at registers
