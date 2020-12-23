@@ -47,7 +47,7 @@ if _check sxhkd; then
 fi
 
 if _check emacs; then
-    ps -ef | grep "[e]macs --daemon" ]] || emacs --daemon
+    ps -ef | grep "[e]macs --daemon" || emacs --daemon
 fi
 
 if _check dunst; then
@@ -67,4 +67,3 @@ fi
 if _check polybar;then
     bash $HOME/.config/polybar/launch.sh
 fi
-
