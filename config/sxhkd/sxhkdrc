@@ -1,4 +1,4 @@
-#
+# -*- conf -*-
 # wm independent hotkeys
 #
 # Configuration:
@@ -13,7 +13,7 @@ super + Return
     kitty
 
 # scratchpad-tdrop. Calls a drop-down terminal
-alt + d
+super + d
     tdrop -m -a -w 50% -h 40% -x 25% -y 5% -s dropdown kitty
 
 # Launch Emacs
@@ -29,7 +29,7 @@ super + alt + l
     slock
 
 # program launcher
-alt + p
+super + p
 	rofi -combi-modi window,drun,run,ssh,keys -show combi -modi combi -show-icons
 
 # make sxhkd reload its configuration files:
