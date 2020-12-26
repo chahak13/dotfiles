@@ -21,7 +21,7 @@ _display_background() {
 _set_wallpaper() {
     local hour=$(timedatectl status | awk '/Local/ {print $5}' | cut -d':' -f1)
     local current=$(</tmp/theme)
-    if [[ hour -lt 17 && hour -gt 10 ]]; then
+    if [[ hour -le 17 && hour -ge 10 ]]; then
         if [[ $current != "light" ]]; then
             _display_background "light"
         fi
