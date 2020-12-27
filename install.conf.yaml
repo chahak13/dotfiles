@@ -23,7 +23,8 @@
     ~/.p10k.zsh: shell/p10k.zsh
     ~/.config/bin: bin
     ~/.config/dunst: dunst
-
+    ~/.emacs.d/init.el: emacs/init.el
+    
 - shell:
   - [git submodule update --init --recursive, Installing submodules]
 
