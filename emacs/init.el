@@ -41,11 +41,10 @@
 (defvar cm/default-font-size 125)
 (defvar cm/default-variable-font-size 135)
 
-(set-face-attribute 'default nil :font "Firacode Nerd Font" :height cm/default-font-size)
-
 ;; ================
 ;; Custom Functions
 ;; ================
+
 (defun cm/disable-all-themes ()
   "Disable all themes listed in `custom-enabled-themes`"
   (dolist (theme custom-enabled-themes)
@@ -69,6 +68,15 @@
 ;; 	  (lambda ()
 ;; 	    (add-hook 'after-save-hook 'black-format-python-file nil 'local)))
 
+(defun cm/set-font-faces ()
+  (set-face-attribute 'default nil :font "Firacode Nerd Font" :height cm/default-font-size))
+
+;; =====
+;; Hooks
+;; =====
+(if (daemonp)
+    (add-hook 'server-after-make-frame-hook 'cm/set-font-faces)
+  (cm/set-font-faces))
 
 ;; ========
 ;; Packages
