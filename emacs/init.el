@@ -210,3 +210,59 @@
   (projectile-mode +1)
   :bind (:map projectile-mode-map
 	      ("C-x p" . projectile-command-map)))
+
+;; Dired
+(use-package dired
+  :config
+  (setq dired-listing-switches
+	"-AGFhlv --group-directories-first --time-style=long-iso")
+  (setq dired-dwim-target t)
+  :bind (:map dired-mode-map
+	      ("+" . dired-create-empty-file))
+  :hook ((dired-mode-hook . dired-hide-details-mode)
+	 (dired-mode-hook . hl-line-mode)))
+
+(use-package dired-aux
+  :config
+  (setq dired-create-destination-dirs 'ask)
+  (setq dired-isearch-filenames 'dwim)
+  (setq dired-vc-rename-file t)
+  :bind (:map dired-mode-map
+	      ("C-+" . dired-create-directory)))
+
+(use-package async
+  :straight t)
+
+(use-package dired-async
+  :after (dired async)
+  :hook (dired-mode-hook . dired-async-mode))
+
+(use-package wdired
+  :after dired
+  :commands wdired-change-to-wdired-mode
+  :config
+  (setq wdired-allow-to-change-permissions t)
+  (setq wdired-create-parent-directories t))
+
+(use-package dired-subtree
+  :straight t
+  :after dired
+  :config
+  (setq dired-subtree-use-backgrounds nil)
+  :bind (:map dired-mode-map
+              ("<tab>" . dired-subtree-toggle)
+              ("<C-tab>" . dired-subtree-cycle)
+              ("<S-iso-lefttab>" . dired-subtree-remove)))
+
+(use-package dired-x
+  :after dired
+  :config
+  (setq dired-clean-up-buffers-too t)
+  (setq dired-clean-confirm-killing-deleted-buffers t)
+  (setq dired-x-hands-off-my-keys t)    ; easier to show the keys I use
+  (setq dired-bind-man nil)
+  (setq dired-bind-info nil)
+  :bind (("C-x C-j" . dired-jump)
+         ("C-x 4 C-j" . dired-jump-other-window)
+         :map dired-mode-map
+         ("I" . dired-info)))
