@@ -1,0 +1,82 @@
+#! /bin/sh
+
+# Define the clock
+_datetime() {
+        DATETIME=$(date "+%a %b %d, %T")
+
+        echo -n "$DATETIME"
+}
+
+_file_system () {
+
+    for mountpoint in "${@}"; do
+	local mount_str=$(df -h | grep ${mountpoint}'$' | sed -E 's/\s+/ /g')
+	local mount_info=(${mount_str})
+	printf "%s: %s/%s\n" "${mountpoint}" "${mount_info[2]}" "${mount_info[1]}"
+    done
+}
+
+_volume () {
+    local status=$(amixer get Master | grep -Eo '([0-9]+%)|(\[on\]|\[off\])' | head -n2 | tr '\n' ',')
+    local volume="${status%%,*}"
+    
+    case "${status#*[}" in
+	off*)
+	    echo -e "(Muted)"
+	    ;;
+	*)
+	    echo -e "${volume}"
+	    ;;
+    esac
+}
+
+_ram_usage () {
+    local memusage=$(free -h | grep "Mem:")
+    local memtotal=$(echo ${memusage} | awk '{print $2}')
+    local memused=$(echo ${memusage} | awk '{print $3}')
+
+    echo -e "${memused}/${memtotal}"
+}
+
+_battery () {
+    local batc=$(</sys/class/power_supply/BAT1/capacity)
+    local bats=$(</sys/class/power_supply/BAT1/status)
+
+    local label="+"
+    case "${bats}" in
+	Discharging)
+	    label="-"
+	    ;;
+	Full)
+	    label="%"
+	    ;;
+	*)
+	    label="+"
+	    ;;
+    esac
+
+    echo -e "${batc}${label}"
+}
+
+# TODO: Need to add average core temp calculation
+_temperature () {
+    echo ""
+}
+
+_networking () {
+    local ssid=$(iwgetid --raw)
+    echo "${ssid}"
+}
+
+_modules () {
+    while true; do
+	echo "F" "$(_file_system /)"
+	echo "V" "$(_volume)"
+	echo "R" "$(_ram_usage)"
+	echo "N" "$(_networking)"
+	echo "B" "$(_battery)"
+	echo "D" "$(_datetime)"
+	sleep 1s
+    done
+}
+

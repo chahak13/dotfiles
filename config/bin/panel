@@ -1,0 +1,127 @@
+#! /bin/bash
+
+set -eou pipefail
+
+PANEL_FONT="Iosevka"
+
+bg_main="#000000"
+bg_alt="#181a20"
+fg_main="#ffffff"
+fg_alt="#a8a8a8"
+red="#ff8059"
+green="#58dd13"
+yellow="#f0ce43"
+
+panel_fifo='/tmp/panel.fifo'
+[ -e "${panel_fifo}" ] && rm "${panel_fifo}"
+mkfifo "${panel_fifo}"
+
+source $HOME/.config/bin/panel_modules
+
+xtitle -s -t 20 -f "T%s\n" > "${panel_fifo}" &
+_modules > "${panel_fifo}" &
+bspc subscribe report > "${panel_fifo}" &
+
+_panel () {
+    while read -r line; do
+	case $line in
+	    F*)
+		fs="${line#?}"
+		;;
+	    V*)
+		vol="${line#?}"
+		;;
+	    R*)
+		ram="${line#?}"
+		;;
+	    T*)
+		title="${line#?}"
+		;;
+	    N*)
+		ssid="${line#?}"
+		;;
+	    B*)
+		battery="${line#?}"
+		;;
+	    D*)
+		datetime="${line#?}"
+		;;
+	    W*)
+                wm=
+                IFS=':'
+                set -- ${line#?}
+                while [ "$#" -gt 0 ] ; do
+                    item="$1"
+                    name="${item#?}"
+                    case "$item" in
+                        [mMfFoOuULG]*)
+                            case "$item" in
+                                m*)
+                                    # monitor
+                                    FG="$fg_alt" # needed to avoid invalid colour error
+                                    on_focused_monitor=
+                                    name=
+                                    ;;
+                                M*)
+                                    # focused monitor
+                                    FG="$fg_alt" # needed to avoid invalid colour error
+                                    on_focused_monitor=1
+                                    name=
+                                    ;;
+                                # {Free,Occupied,Urgent} focused
+                                [FOU]*)
+                                    if [ -n "$on_focused_monitor" ]; then
+                                        name="%{T-}${name/*/[$name]}%{T-}"
+                                        FG="$fg_main"
+                                    else
+                                        name="${name/*/ $name-}"
+                                        FG="$fg_alt"
+                                    fi
+                                    ;;
+                                # {free,occupied,urgent} unfocused
+                                f*)
+                                    FG="$fg_alt"
+                                    name="${name/*/ $name }"
+                                    ;;
+                                o*)
+                                    FG="$fg_alt"
+                                    name="${name/*/ $name^}"
+                                    ;;
+                                u*)
+                                    FG="$red"
+                                    name="${name/*/ $name\#}"
+                                    ;;
+                                # desktop layout for monocle and node flags
+                                LM|G*?)
+                                    FG="$fg_main"
+                                    name="${name/*/ $name }"
+                                    ;;
+                                *)
+                                    FG="$fg_alt"
+                                    name="${name/*/ * }"
+                                    ;;
+                            esac
+                            wm="${wm}%{F$FG}${name}%{F-}"
+			    ;;
+                    esac
+                    shift
+                done
+	esac
+
+	_layout () {
+	    echo "%{l}${wm:-} %{c} ${title:-}%{r}${fs:-} ${vol:-} ${ram:-} ${ssid:-} ${battery:-} ${datetime:-} "
+	}
+	
+        if [ "$(bspc query -M | wc -l)" -gt 1 ]; then
+            printf "%s%s\n" "%{Sf}$(_layout)" "%{Sl}$(_layout)"
+        else
+            printf "%s\n" "%{Sf}$(_layout)"
+        fi
+
+    done
+
+}
+
+# _panel < "${panel_fifo}" | lemonbar -p -u 1 -g "x${PANEL_HEIGHT}" -n "${PANEL_WM_NAME}" -f "${PANEL_FONT}" -B "${bg_main}" &
+
+_panel < "${panel_fifo}"

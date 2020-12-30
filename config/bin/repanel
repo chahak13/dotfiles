@@ -1,0 +1,9 @@
+#! /bin/bash
+
+if [[ -n $(xdotool search --onlyvisible --name "${PANEL_WM_NAME}") ]]; then
+    bspc config top_padding 0
+    xdotool search --onlyvisible --name "${PANEL_WM_NAME}" windowunmap --sync %@
+else
+    bspc config top_padding $(("${PANEL_HEIGHT}"+5))
+    xdotool search --name "${PANEL_WM_NAME}" windowmap --sync %@
+fi

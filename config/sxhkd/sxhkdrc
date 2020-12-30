@@ -36,6 +36,11 @@ super + p
 super + Escape
 	pkill -USR1 -x sxhkd && notify-send -- "SXHKD" "Reloaded key bindings"
 
+# Lemonbar
+# THIS DOESN'T WORKKKKK
+# super + y
+      # $HOME/.config/bin/repanel
+
 #
 # bspwm hotkeys
 #
