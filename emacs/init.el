@@ -225,6 +225,7 @@
   (setq dired-listing-switches
 	"-AGFhlv --group-directories-first --time-style=long-iso")
   (setq dired-dwim-target t)
+  (setq dired-hide-details-hide-symlink-targets nil)
   :bind (:map dired-mode-map
 	      ("+" . dired-create-empty-file))
   :hook ((dired-mode-hook . dired-hide-details-mode)
