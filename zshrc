@@ -1,3 +1,4 @@
+# -*- conf -*-
 # Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
 # Initialization code that may require console input (password prompts, [y/n]
 # confirmations, etc.) must go above this block; everything else may go below.
@@ -73,7 +74,7 @@ if [[ -f ~/.dotfiles/shell/aliases.sh ]]; then
     source ~/.dotfiles/shell/aliases.sh
 fi
 
-export XDG_CONFIG_HOME="$HOME/.config/"
+export XDG_CONFIG_HOME="$HOME/.config"
 export PATH="$XDG_CONFIG_HOME/bin":$PATH
 source ~/.zprofile
 
