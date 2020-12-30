@@ -21,7 +21,7 @@
     ~/.config/rofi: config/rofi
     ~/.config/sxhkd: config/sxhkd
     ~/.p10k.zsh: shell/p10k.zsh
-    ~/.config/bin: bin
+    ~/.config/bin: config/bin
     ~/.config/dunst: dunst
     ~/.emacs.d/init.el: emacs/init.el
     
