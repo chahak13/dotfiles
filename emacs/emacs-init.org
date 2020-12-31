@@ -1,0 +1,299 @@
+* Configuration setup for Emacs
+This file is supposed to act like the configuration file to set up Emacs. The hope is to document and tangle it properly to make it the base configuration file for Emacs. It will be written in multiple sections wherein each section will cover a part of the configuration, explanation and code alike.
+** Straight.el
+I am using [[https://github.com/raxod502/straight.el/][straight.el]] as my package manager. There's less of a particular reason for the same and more that I just wanted to explore it and its usage. I like what the project aims to be as per the README and wanted to give it a try.
+
+The following piece of code is borred from the official README for straight.el and is used to bootstrap the straight.el setup into emacs.
+
+#+BEGIN_SRC emacs-lisp
+
+;; Setup straight.el
+;; Straigh.el is the package manager that I plan to use for my emacs configuration.
+;; This piece of bootstrapping code is borrowed from the official README of straight.el
+;; and can be found here: https://github.com/raxod502/straight.el#+bootstrapping-straightel
+(defvar bootstrap-version)
+(let ((bootstrap-file
+       (expand-file-name "straight/repos/straight.el/bootstrap.el" user-emacs-directory))
+      (bootstrap-version 5))
+  (unless (file-exists-p bootstrap-file)
+    (with-current-buffer
+        (url-retrieve-synchronously
+         "https://raw.githubusercontent.com/raxod502/straight.el/develop/install.el"
+         'silent 'inhibit-cookies)
+      (goto-char (point-max))
+      (eval-print-last-sexp)))
+  (load bootstrap-file nil 'nomessage))
+
+(setq-default straight-vc-git-default-clone-depth 5)
+
+#+END_SRC
+** Use-package
+[[https://github.com/jwiegley/use-package][use-package]] is a wonderful package that allows for fairly easy configuration of packages for emacs. It is /not/ a package installer, but it works in tandem with straight.el to install packages along with configuration right along with the installation declaration.
+
+#+BEGIN_SRC emacs-lisp
+;; Install use-package using straight.el
+(straight-use-package 'use-package)
+
+;; Configure `use-package' prior to loading it.
+(eval-and-compile
+  (setq use-package-always-ensure nil)  ; ESSENTIAL for `straight.el'
+  (setq use-package-always-defer nil)
+  (setq use-package-always-demand nil)
+  (setq use-package-expand-minimally nil)
+  (setq use-package-enable-imenu-support t)
+  (setq use-package-compute-statistics nil)
+  ;; Borrowed from Protesilaos' great dotfiles
+  ;; The following is VERY IMPORTANT.  Write hooks using their real name
+  ;; instead of a shorter version: after-init ==> `after-init-hook'.
+  ;;
+  ;; This is to empower help commands with their contextual awareness,
+  ;; such as `describe-symbol'.
+  (setq use-package-hook-name-suffix nil))
+
+#+END_SRC
+** UI Configuration for Emacs
+This section covers the basic UI configuration for Emacs. It takes care of various things like removing the scrollbar and enabling line numbers. Each option is explained in the comments too.
+
+#+BEGIN_SRC emacs-lisp
+
+(setq inhibit-startup-message t) ; Inhitbit the default startup message
+
+(scroll-bar-mode -1)        ; Disable visible scrollbar
+(tool-bar-mode -1)          ; Disable the toolbar
+(tooltip-mode -1)           ; Disable tooltips
+(set-fringe-mode 8)	    ; Give some breathing room
+(menu-bar-mode -1)	    ; Disable the menu bar
+
+(global-display-line-numbers-mode t)	; Enable line numbers everywhere
+(column-number-mode)		        ; Show column number in the mode-line
+
+;; Disable line numbers for some modes
+(dolist (mode '(org-mode-hook
+		eshell-mode-hook))
+  (add-hook mode (lambda () (display-line-numbers-mode 0))))
+
+#+END_SRC
+** Theme
+I currently use the =modus-themes= provided by the wonderful [[https://gitlab.com/protesilaos/modus-themes][Prot]]. I haven't configured them much currently but hopefully will do so in the future, once I get more used to Emacs.
+
+#+BEGIN_SRC emacs-lisp
+  (use-package modus-themes
+    :straight t
+    :init
+    (defun cm/disable-all-themes ()
+      "Disable all themes listed in `custom-enabled-themes`"
+      (dolist (theme custom-enabled-themes)
+      (disable-theme theme)))
+
+    (defun cm/load-theme (THEME)
+      "Load the THEME only if it is not set already"
+      (interactive)
+      (unless (member THEME custom-enabled-themes)
+        (load-theme THEME)))
+
+    (defadvice load-theme (before cm/disable-all-themes activate)
+      (cm/disable-all-themes)))
+
+#+END_SRC
+** Font configuration
+Setup fonts for Emacs setup.
+
+#+BEGIN_SRC emacs-lisp
+
+  (defvar cm/default-font-size 125)
+  (defvar cm/default-variable-font-size 135)
+
+  (defun cm/set-font-faces ()
+    (set-face-attribute 'default nil :font "Hack" :height cm/default-font-size))
+
+  (if (daemonp)
+      (add-hook 'server-after-make-frame-hook 'cm/set-font-faces)
+    (cm/set-font-faces))
+
+#+END_SRC
+** Straight-x
+Use =straight-x= package for better straight functionalities.
+
+#+begin_src emacs-lisp
+  (use-package straight-x)
+#+end_src
+** Commenting
+A lot of my work includes (un/)commenting lines of code because that's how I like to experiment. Emacs has a built-in package that provides these functionalities, calledd =newcomment.el=. While there are multiple functions provided by the library, I'm currently mainly using the =comment-line= function and hence have added just that to a better keybinding.
+
+#+BEGIN_SRC emacs-lisp
+  (use-package newcomment
+    :bind (("C-;" . comment-line)))
+#+END_SRC
+** Buffer management
+The built-in =ibuffer= package provides a better interface to buffer switching and management, in my opinion. Therefore, I have switched to it in place of the default buffer switching.
+
+#+BEGIN_SRC emacs-lisp
+  (use-package ibuffer
+    :bind (("C-x C-b" . ibuffer-other-window)))
+#+END_SRC
+** Completion frameworks
+Before switching to the various third-party completion frameworks that are talked about, ex. =ivy= and =helm=, I want to give the built-in completion framework - =ido= a fair chance. Therefore, I'm currently just using packages for improving my =ido= experience. For better completion and selection, I'm using the =amx= package for a scoring function. I find it to be fairly accurate but I do want to try out =prescient.el= that has been talked about quite a bit, including by David Wilson and Protesilaos.
+
+#+BEGIN_SRC emacs-lisp
+  ;; ido built-in:
+  ;; The built-in ido completion framework
+  (use-package ido
+    :bind
+    :config
+    (ido-mode 1)
+    (setq ido-enable-flex-matching t)
+    (setq ido-everywhere t))
+
+  ;; Ido-completing-read+ package:
+  ;; Required for Amx
+  (use-package ido-completing-read+
+    :straight t
+    :config
+    (ido-ubiquitous-mode 1))
+
+  ;; Amx package:
+  ;; Amx is an alternative to M-x and is a fork of smex. It is
+  ;; designed to work with multiple completion frameworks and is
+  ;; currently being used with ido.
+  (use-package amx
+    :straight t
+    :after (ido-completing-read+)
+    :config
+    (amx-mode 1))
+#+END_SRC
+** Undo-tree and history
+I've found =undo-tree= to be a fairly useful package inspite of not having explored all the functions it provides yet.
+
+#+BEGIN_SRC emacs-lisp
+  ;; Undo-tree package
+  ;; This package is useful to use undo history as a tree instead of
+  ;; a linear history.
+  (use-package undo-tree
+    :straight t
+    :config
+    (global-undo-tree-mode))
+#+END_SRC
+** /Help/-fulpackages
+I've found =which-key= and =helpful= packages very useful in my time to learn Emacs.
+- =which-key= provides a list of possible keybindings that are a part of that particular prefix-map. This helps quite a lot in discovering a lot of new keybindings.
+- =helpful= provides an alternative to the built-in Emacs help by giving more contextual information including links to source code and references.
+
+  #+BEGIN_SRC emacs-lisp
+    ;; which-key package:
+    ;; which-key provides a visual buffer that shows the possible key
+    ;; bindings that are available in the particular prefix
+    (use-package which-key
+      :straight t
+      :init
+      (which-key-mode)
+      :diminish
+      :config
+      (setq which-key-idle-delay 1))
+
+    ;; Helpful package:
+    ;; Helpful is an alternative to the built-in Emacs help that
+    ;; provides much more contextual information.
+    (use-package helpful
+      :straight t
+      :bind (("C-h f" . helpful-callable)
+             ("C-h v" . helpful-variable)
+             ("C-h k" . helpful-key)
+             ("C-c C-d" . helpful-at-point)
+             ("C-h F" . helpful-function)
+             ))
+  #+END_SRC
+** Org
+*** Org Babel
+Set org-babel languages for org mode code-blocks
+
+#+BEGIN_SRC emacs-lisp
+(org-babel-do-load-languages
+  'org-babel-load-languages
+  '((emacs-lisp . t)))
+#+END_SRC
+*** Structure Templates
+
+#+BEGIN_SRC emacs-lisp
+  (require 'org-tempo)
+
+  (add-to-list 'org-structure-template-alist '("el" . "src emacs-lisp"))
+
+#+END_SRC 
+** Magit
+#+BEGIN_SRC emacs-lisp
+  ;; Magit
+  (use-package magit
+    :straight t
+    :config
+    (setq magit-display-buffer-function #'magit-display-buffer-same-window-except-diff-v1))
+#+END_SRC
+** Projectile
+#+BEGIN_SRC emacs-lisp
+  ;; Projectile
+  (use-package projectile
+    :straight t
+    :init
+    (projectile-mode +1)
+    :bind (:map projectile-mode-map
+                ("C-x p" . projectile-command-map)))
+#+END_SRC
+** Dired
+#+BEGIN_SRC emacs-lisp
+  ;; Dired
+  (use-package dired
+    :config
+    (setq dired-listing-switches
+          "-AGFhlv --group-directories-first --time-style=long-iso")
+    (setq dired-dwim-target t)
+    (setq dired-hide-details-hide-symlink-targets nil)
+    :bind (:map dired-mode-map
+                ("+" . dired-create-empty-file))
+    :hook ((dired-mode-hook . dired-hide-details-mode)
+           (dired-mode-hook . hl-line-mode)))
+
+  (use-package dired-aux
+    :config
+    (setq dired-create-destination-dirs 'ask)
+    (setq dired-isearch-filenames 'dwim)
+    (setq dired-vc-rename-file t)
+    :bind (:map dired-mode-map
+                ("C-+" . dired-create-directory)))
+
+  (use-package async
+    :straight t)
+
+  (use-package dired-async
+    :after (dired async)
+    :hook (dired-mode-hook . dired-async-mode))
+
+  (use-package wdired
+    :after dired
+    :commands wdired-change-to-wdired-mode
+    :config
+    (setq wdired-allow-to-change-permissions t)
+    (setq wdired-create-parent-directories t))
+
+  (use-package dired-subtree
+    :straight t
+    :after dired
+    :config
+    (setq dired-subtree-use-backgrounds nil)
+    :bind (:map dired-mode-map
+                ("<tab>" . dired-subtree-toggle)
+                ("<C-tab>" . dired-subtree-cycle)
+                ("<S-iso-lefttab>" . dired-subtree-remove)))
+
+  (use-package dired-x
+    :after dired
+    :config
+    (setq dired-clean-up-buffers-too t)
+    (setq dired-clean-confirm-killing-deleted-buffers t)
+    (setq dired-x-hands-off-my-keys t)    ; easier to show the keys I use
+    (setq dired-bind-man nil)
+    (setq dired-bind-info nil)
+    :bind (("C-x C-j" . dired-jump)
+           ("C-x 4 C-j" . dired-jump-other-window)
+           :map dired-mode-map
+           ("I" . dired-info)))
+#+END_SRC
+
