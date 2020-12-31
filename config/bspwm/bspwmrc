@@ -1,5 +1,9 @@
 #! /bin/bash
 
+export PANEL_HEIGHT=24
+export PANEL_WM_NAME="bspwm_panel"
+export PANEL_FONT="Iosevka"
+
 # Utility functions
 _check() {
     command -v "$1" > /dev/null
@@ -64,9 +68,7 @@ if _check picom; then
     pgrep picom > /dev/null || picom --experimental-backends &
 fi
 
-# THIS IS HACKYYY!!!! NEED TO FIX
 if _check panel; then
     pgrep lemonbar && pkill lemonbar
-    panel | lemonbar -p -g "x24" -n "bspwm_panel" -f "Iosevka" -B "#000000" &
-    # panel &
+    $HOME/.config/bin/panel
 fi
