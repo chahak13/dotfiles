@@ -69,7 +69,7 @@
 ;; 	    (add-hook 'after-save-hook 'black-format-python-file nil 'local)))
 
 (defun cm/set-font-faces ()
-  (set-face-attribute 'default nil :font "Firacode Nerd Font" :height cm/default-font-size))
+  (set-face-attribute 'default nil :font "Hack" :height cm/default-font-size))
 
 ;; =====
 ;; Hooks
