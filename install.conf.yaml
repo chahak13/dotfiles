@@ -24,7 +24,7 @@
     ~/.config/bin: config/bin
     ~/.config/dunst: dunst
     ~/.emacs.d/init.el: emacs/init.el
-    
+    ~/.Xmodmap: config/bspwm/.Xmodmap    
 - shell:
   - [git submodule update --init --recursive, Installing submodules]
 
