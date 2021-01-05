@@ -36,15 +36,18 @@ _bc borderless_monocle   false
 _bc gapless_monocle      true
 
 _br --add TelegramDesktop desktop=^8 state=floating centered=true rectangle=200x100
-_br --add Emacs desktop=^7 state=fullscreen follow=on
 _br --add Matplotlib state=floating
 _br --add matplotlib state=floating
 _br --add Polybar layer=lower
+_br --add Surf state=tiled
+_br --add Emacs --one-shot desktop=^7 state=fullscreen follow=on
 
 ## Autostart applications and configs
-if _check setxkbmap; then
-    setxkbmap -option caps:ctrl_modifier
-fi
+
+# Parse my custom key mappings.  These enable Mod3 ("Hyper") and make
+# some necessary adjustments to that end.  We need to evaluate this
+# first otherwise it might mess up with SXHKD.
+[ -f "$HOME"/.Xmodmap ] && xmodmap "$HOME"/.Xmodmap
 
 if _check sxhkd; then
     pgrep -x sxhkd > /dev/null || sxhkd &
