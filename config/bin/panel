@@ -2,7 +2,8 @@
 
 set -eou pipefail
 
-PANEL_FONT="Iosevka"
+font_laptop="Iosevka-11"
+font_monitor="Iosevka"
 
 bg_main="#000000"
 bg_alt="#181a20"
@@ -71,7 +72,7 @@ _panel () {
                                 # {Free,Occupied,Urgent} focused
                                 [FOU]*)
                                     if [ -n "$on_focused_monitor" ]; then
-                                        name="%{T-}${name/*/[$name]}%{T-}"
+                                        name="${name/*/[$name]}"
                                         FG="$fg_main"
                                     else
                                         name="${name/*/ $name-}"
@@ -113,7 +114,7 @@ _panel () {
 	}
 	
         if [ "$(bspc query -M | wc -l)" -gt 1 ]; then
-            printf "%s%s\n" "%{Sf}$(_layout)" "%{Sl}$(_layout)"
+            printf "%s%s\n" "%{Sf}%{T1}$(_layout)%{T-}" "%{Sl}%{T2}$(_layout)%{T-}"
         else
             printf "%s\n" "%{Sf}$(_layout)"
         fi
@@ -122,4 +123,4 @@ _panel () {
 
 }
 
-_panel < "${panel_fifo}" | lemonbar -p -g "x${PANEL_HEIGHT}" -n "${PANEL_WM_NAME}" -f "${PANEL_FONT}" -B "${bg_main}" &
+_panel < "${panel_fifo}" | lemonbar -p -g "x${PANEL_HEIGHT}" -n "${PANEL_WM_NAME}" -f "${font_laptop}" -f "${font_monitor}" -B "${bg_main}" &

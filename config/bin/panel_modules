@@ -2,9 +2,9 @@
 
 # Define the clock
 _datetime() {
-        DATETIME=$(date "+%a %b %d, %T")
+        DATETIME=$(date +"%b %d, %l:%M %p")
 
-        echo -n "$DATETIME"
+        echo -n "D: $DATETIME"
 }
 
 _file_system () {
@@ -22,10 +22,10 @@ _volume () {
     
     case "${status#*[}" in
 	off*)
-	    echo -e "(Muted)"
+	    echo -e "V: (Muted)"
 	    ;;
 	*)
-	    echo -e "${volume}"
+	    echo -e "V: ${volume}"
 	    ;;
     esac
 }
@@ -35,7 +35,7 @@ _ram_usage () {
     local memtotal=$(echo ${memusage} | awk '{print $2}')
     local memused=$(echo ${memusage} | awk '{print $3}')
 
-    echo -e "${memused}/${memtotal}"
+    echo -e "R: ${memused}/${memtotal}"
 }
 
 _battery () {
@@ -55,7 +55,7 @@ _battery () {
 	    ;;
     esac
 
-    echo -e "${batc}${label}"
+    echo -e "B: ${batc}${label}"
 }
 
 # TODO: Need to add average core temp calculation
@@ -65,7 +65,7 @@ _temperature () {
 
 _networking () {
     local ssid=$(iwgetid --raw)
-    echo "${ssid}"
+    echo "N: ${ssid}"
 }
 
 _modules () {
