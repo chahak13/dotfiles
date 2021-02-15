@@ -179,7 +179,7 @@ hyper + {Left,Down,Up,Right}
     
 # Sound settings
 {XF86AudioRaiseVolume, XF86AudioLowerVolume, XF86AudioMute}
-    amixer -D pulse set Master {5%+, 5%-, toggle}
+    amixer set Master {5%+, 5%-, toggle}
 
 #Brightness control
 XF86MonBrightnessDown
