@@ -10,7 +10,7 @@ _check() {
 _display_background() {
     case "$1" in
         light)
-            feh --no-fehbg --bg-scale $HOME/Pictures/Wallpapers/tim-zankert-1YFt4rpHKp0-unsplash.jpg
+            feh --no-fehbg --bg-scale $HOME/Pictures/Wallpapers/kame-house-3440x1440.jpg
             ;;
         dark)
             feh --no-fehbg --bg-scale $HOME/Pictures/Wallpapers/vox-machina.jpg --bg-scale $HOME/Pictures/Wallpapers/mighty-nein.jpg
@@ -21,7 +21,7 @@ _display_background() {
 _set_wallpaper() {
     local hour=$(timedatectl status | awk '/Local/ {print $5}' | cut -d':' -f1)
     local current=$(</tmp/theme)
-    if [[ hour -le 17 && hour -ge 10 ]]; then
+    if [[ hour -lt 17 && hour -ge 10 ]]; then
         if [[ $current != "light" ]]; then
             _display_background "light"
         fi

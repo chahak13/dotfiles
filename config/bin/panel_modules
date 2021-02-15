@@ -1,8 +1,13 @@
 #! /bin/sh
+shopt -s nullglob    # Non-matching globs are removed  ('*.foo' => '')
+shopt -s failglob    # Non-matching globs throw errors
+shopt -s nocaseglob  # Case insensitive globs
+shopt -s dotglob     # Wildcards match dotfiles ("*.sh" => ".foo.sh")
+shopt -s globstar    # Allow ** for recursive matches ('lib/**/*.rb' => 'lib/a/b/c.rb')
 
 # Define the clock
 _datetime() {
-        DATETIME=$(date +"%b %d, %l:%M %p")
+        DATETIME=$(date +"%a %b %d, %l:%M %p")
 
         echo -n "D: $DATETIME"
 }
@@ -46,6 +51,9 @@ _battery () {
     case "${bats}" in
 	Discharging)
 	    label="-"
+	    if [[ ${batc} -le 20 ]]; then
+		notify-send --hint string:bgcolor:#ff0000 "Battery Low (${batc})" "Please plug in the charger"
+	    fi
 	    ;;
 	Full)
 	    label="%"

@@ -35,12 +35,13 @@ _bc split_ratio          0.5
 _bc borderless_monocle   false
 _bc gapless_monocle      true
 
-_br --add TelegramDesktop desktop=^8 state=floating centered=true rectangle=200x100
+_br --add TelegramDesktop desktop=^8 state=floating rectangle=200x100+490-75
 _br --add Matplotlib state=floating
 _br --add matplotlib state=floating
 _br --add Polybar layer=lower
 _br --add Surf state=tiled
-_br --add Emacs --one-shot desktop=^7 state=fullscreen follow=on
+_br --add Emacs --one-shot desktop=^7 follow=on state=fullscreen
+_br --add Slack desktop=^8 state=floating rectangle=800x600+100+30 follow=off
 
 ## Autostart applications and configs
 
@@ -61,14 +62,14 @@ if _check dunst; then
     pgrep -x dunst > /dev/null || dunst &
 fi
 
+if _check picom; then
+    pgrep picom > /dev/null || picom --experimental-backends &
+fi
+
 if _check feh; then
     if [ -e $HOME/.config/bin/theme ]; then
 	$HOME/.config/bin/theme reset
     fi
-fi
-
-if _check picom; then
-    pgrep picom > /dev/null || picom --experimental-backends &
 fi
 
 if _check panel; then
