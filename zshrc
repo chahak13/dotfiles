@@ -9,7 +9,7 @@ fi
 # If you come from bash you might have to change your $PATH.
 export PATH=/opt/local/bin:$PATH
 if [[ -d $HOME/.cargo ]]; then
-    export PATH=$HOME/.cargo/bin:$PATH
+    export PATH=$PATH:$HOME/.cargo/bin
 fi
 # Path to your oh-my-zsh installation.
 export ZSH="$HOME/.oh-my-zsh"
@@ -75,7 +75,7 @@ if [[ -f ~/.dotfiles/shell/aliases.sh ]]; then
 fi
 
 export XDG_CONFIG_HOME="$HOME/.config"
-export PATH="$XDG_CONFIG_HOME/bin":$PATH
+export PATH=$PATH:"$XDG_CONFIG_HOME/bin"
 source ~/.zprofile
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.

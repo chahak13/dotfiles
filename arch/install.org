@@ -1,0 +1,277 @@
+#+TITLE: Steps to install Arch Linux on a new system
+#+AUTHOR: Chahak Mehta
+
+
+I spent a lot of time running Ubuntu as my choice of OS, mainly because in college, I needed something to work straight up and I did not have enough patience to go through the ArchWiki for every topic (I still don't. But I do /try/ now, so that counts :P). Moreover, the college wifi also had us to login through another portal that required one to go to the browser to use it, so installing Arch on WiFi was a pain. 6-7 months ago, I decided to give it a shot again, one weekend, while thinking of moving away from GNOME and using BSPWM. This post is as much a documentation for me to not forget the steps, as it hopefully is for other people to get Arch set up quickly. Though, the best source and guide for installation is still the wiki page, which anyone installing Arch should definitely read. 
+
+* Pre-installation steps
+The first step for any dual-boot installation (yes, I still have Windows on my laptop, I know) is to create the bootable medium to install the new OS from. I also like to create the partitions before installation process begins, just to be safe about what I'm doing and so that I don't lose stuff due to a typing mistake in the command. So, the first steps are to create the following partitions.
+
+1. =/= : 30GB
+2. =/home= : The rest that you want the home directory to have. I currently have 270GB for this.
+
+   Once these partitions are made, using any of =gparted= or =Disk Management Utility= (for Windows), create a bootable USB from the Arch Linux ISO. The ISO can be downloaded from the archlinux page ([[archlinux.org/download][link]]). Download the ISO, verify the signature, and then create the bootable USB using rufus on windows or dd on Linux.
+
+* Installing Arch
+Once booted into the live environment, (often by pressing a key during the POST phase or using =Shift+Restart= in Windows and using the USB to boot from), you'll be logged into a virtual console as the root user with a Zsh prompt. While being in this tty, you can use =Alt+arrow= to switch to a different console if one wants to open the ArchWiki Installation guide using Lynx (pre-installed in the USB medium) during the process. The following are the steps that need to be taken then, to get the Arch installation in the required partition up and running.
+
+** Keyboard Layout
+The default keyboard layout is US and doesn't need any changes for me, but if required, one can use the following steps to change the layout.
+*** List the available layouts
+#+begin_src shell
+ls /usr/share/kbd/keymaps/**/*.map.gz
+#+end_src
+
+*** Set layout
+#+begin_example
+# loadkeys <name-of-layout>
+#+end_example
+
+** Verify boot mode
+My MSI laptop boots into the UEFI mode and that can be confirmed by checking the =efivars= directory. If it is not empty, that means that the system has booted into UEFI mode.
+
+#+begin_src shell
+ls /sys/firmware/efi/efivars
+#+end_src
+
+** Internet
+Internet connection is required for installing arch and various packages required for the proper installation. To ensure that the network interface is listed and enabled, check the output of =ip link=. If it lists the required interface (WiFi, in my case) then go ahead and connect to one of the networks. I will be writing about connecting to a WiFi network, but ethernet should work on just plugging in the cable. =iwctl= can be used to connect to the WiFi network.
+
+On running =iwctl=, you will enter into the =iwd= prompt where you can perform various operations to connect. The following command can be used to list the devices that are available to connect.
+
+#+begin_example
+[iwd]# device list
+#+end_example
+
+From the output, select the /device/ that you want to connect and use the following command to scan for available networks
+
+#+begin_example
+[iwd]# station <device> scan
+#+end_example
+
+From the list of stations available, select one of the /SSID/ to connect and run the following command. It will prompt for the pasword, if required
+
+#+begin_example
+[iwd]# station <device> connect <SSID>
+#+end_example
+
+In case one wants to perform the entire operation in one command, in a script for example, one can use:
+
+#+begin_src shell
+iwctl --passphrase <password> station <device> connect <SSID>
+#+end_src
+
+** System clock
+To use network synchronization on the clock, set the NTP parameter for =timedatectl= to true by using
+
+#+begin_src shell
+timedatectl set-ntp true
+#+end_src
+
+One can check the time and the service status by using =timedatectl status=
+
+** Partitions
+After creating partitions and formating them to =ext4= format using =gparted= (or equivalent) mount the partitions to be used by the installation by the following commands. Do change the sda10 to the partition name to which the OS =/= is to be mounted. Consequently, mount the required =/dev/<>= partitions to =/mnt=, =/mnt/home= etc. for =/=, =/home= for the OS respectively. (Will have to create the further mount points in the =/mnt= directory using the =mkdir= command)
+
+#+begin_src shell
+mount /dev/sda10 /mnt
+#+end_src
+
+#+begin_example
+# mkdir /mnt/home
+# mount /dev/<home partition> /mnt/home
+#+end_example
+
+** Mirrors
+The default pacman mirrorlist works good enough for me and hence, I prefer not to make any changes to it.
+
+** Base packages
+While using the bootable medium, the =pacstrap= script can be used to install packages into the installation system. Using this, install the =base=, =linux=, =linux-firmware= packages. Furthermore, the =base= package doesn't include a lot of required tools and packages that are necessary for a functional system. The following is the packages that I prefer to install at the same time, to have a working system.
+
+#+begin_src shell
+pacstrap /mnt base linux linux-firmware dhcpcd iputils netctl vim emacs man-db man-pages texinfo wpa_supplicant dialog base-devel
+#+end_src
+
+Once these packages are installed, they will be available in the system later on, either in chroot or while logging in.
+
+** System Configuration
+After installing the required packages, we now need to configure the system to be usable without the live boot medium. 
+*** FSTAB
+To generate and configure the =fstab=, the =genfstab= command can be used with the =-U= and =-L= flags to define the partition points by UUID or label respectively.
+#+begin_src shell
+genfstab -U /mnt >> /mnt/etc/fstab
+#+end_src
+
+The resulting file can be checked and edited in case of any changes.
+
+*** Chroot
+Now, change the root to the new system by using the =arch-chroot= command on the =/mnt= directory.
+
+#+begin_src shell
+arch-chroot /mnt
+#+end_src
+
+*** Timezone
+You can set the timezone of the system by linking the required file to =/etc/localtime= by using the following command.
+
+#+begin_src shell
+ln -sf /usr/share/zoneinfo/<Region>/<City> /etc/localtime
+#+end_src
+
+Once you do this, use =hwclock= to generate =/etc/adjtime= and sync hardware clock.
+
+#+begin_src shell
+hwclock --systohc
+#+end_src
+
+*** Generate Locales
+To generate the locales you want for the system, edit the =/etc/locale.gen= file using the editors installed using =pacstrap= and uncomment the lines corresponding to the locales. (ex: =en_US.UTF-8 UTF-8=, =en_IN UTF-8= etc). Then, the locales can be generated by running:
+#+begin_src shell
+locale-gen
+#+end_src
+
+Also create the =/etc/locale.conf= file and set the =LANG= variable in the file:
+#+name: /etc/locale.conf
+#+begin_example
+LANG=en_US.UTF-8
+#+end_example
+
+*** Network configuration
+After creating the locales, we now need to setup configuration for networking and connections. For this, create the hostname file in =/etc/hostname=.
+
+#+name: /etc/hostname
+#+begin_example
+<hostname>
+#+end_example
+
+Also add matching entries to the hosts file in =/etc/hosts=:
+
+#+name: /etc/hosts
+#+begin_example
+127.0.0.1    localhost
+::1          localhost
+127.0.1.1    <hostname>.localdomain <hostname>
+#+end_example
+
+*** Password
+To set the password for the =root= user, use the =passwd= command.
+** Boot Loader
+Install a linux-compatible boot loader to use multiple OSes. I have =grub= installed already from the Ubuntu partition so I just use =sudo update-grub= for it to recognise the new installation. Since grub is in Ubuntu, after rebooting in the following step, I log into Ubuntu and update grub, and then reboot again to log into the new Arch installation. For a completely new installation, one can install a boot loader in this step and configure it.
+** Reboot
+On finishing the above steps, exit the chroot environment using the =exit= command and the reboot the machine using =reboot= on the console. While the machine gets rebooted, remove the live installation USB and use the newly installed system to log into via the boot-loader. This will log you in and you will see the console on tty1.
+* Post Basic Installation
+Once the basic installation for Arch is done and you are logged into the console, first point of order should be to create a user account using:
+
+#+begin_src shell
+useradd -m <username>
+#+end_src
+
+Add password to the newly made account using:
+
+#+begin_src shell
+passwd <username>
+#+end_src
+
+Also add the new user to the sudoers group by editing the =/etc/sudoers= file. It is a fairly self-explanatory file and can be edited easily using vim (or another such editor). Log out from the root user and log in to the newly created user accounts to set up the required packages and system. 
+** X-server
+X-server is needed to get the graphical display running, for any WM to run. My WM of choice is BSPWM which is available in the Arch repositories itself and can be installed using pacman. Run the following command to install the required packages:
+
+#+begin_src shell
+sudo pacman -S xorg xorg-init xterm bspwm sxhkd git python kitty zsh
+#+end_src
+
+After installing, to enable tap-to-click, natural scrolling, and a few other niceities, create the following file =/etc/X11/Xorg.conf.d/10-touchpad.conf=
+
+#+name: /etc/X11/Xorg.conf.d/10-touchpad.conf
+#+begin_example
+Section "InputClass"
+    Identifier "touchpad overrides"
+    Matchdriver "libinput"
+    Option "ClickMethod" "clickfinger"
+    Option "DisableWhileTyping" "true"
+    Option "MiddleEmulation" "true"
+    Option "Tapping" "true"
+    Option "NaturalScrolling" "true"
+EndSection    
+#+end_example
+
+Once these things are set up, to start the server, run =startx= from the virtual console, or if you want to start it automatically, add this to your =.bash_profile= / =.zprofile=:
+
+#+name: ~/.zprofile
+#+begin_src shell
+if [[ ! $DISPLAY && $XDG_VTNR -eq 1 ]];then
+	startx -- :0
+fi
+#+end_src
+
+=startx= looks at the =~/.xinitrc= file, which should start the simple processes for your session and, at the end, =exec= the WM of your choice. A very simple (and my current) config for this can be:
+
+#+name: ~/.xinitrc
+#+begin_src shell
+  #!/bin/sh
+
+  userresources=$HOME/.Xresources
+  usermodmap=$HOME/.Xmodmap
+  sysresources=/etc/X11/xinit/.Xresources
+  sysmodmap=/etc/X11/xinit/.Xmodmap
+
+  # merge in defaults and keymaps
+  if [ -f $sysresources ]; then
+      xrdb -merge $sysresources
+  fi
+
+  if [ -f $sysmodmap ]; then
+      xmodmap $sysmodmap
+  fi
+
+  if [ -f "$userresources" ]; then
+      xrdb -merge "$userresources"
+  fi
+
+  if [ -f "$usermodmap" ]; then
+      xmodmap "$usermodmap"
+  fi
+
+  # start some nice programs
+  if [ -d /etc/X11/xinit/xinitrc.d ] ; then
+      for f in /etc/X11/xinit/xinitrc.d/?*.sh ; do
+          [ -x "$f" ] && . "$f"
+      done
+      unset f
+  fi
+
+  # set the mouse pointer to a left arrow pointer instead of a cross
+  xsetroot -cursor_name left_ptr
+
+  dbus-update-activation-environment --systemd DBUS_SESSION_BUS_ADDRESS DISPLAY XAUTHORITY
+  export PATH="${HOME}/.config/bin:${PATH}"
+  exec bspwm
+#+end_src
+
+Make sure to properly update the =sxhkdrc= file to use the programs installed in the system, at least the right terminal, before running startx, so that you can have access to the terminal once you start BSPWM and can then continue to build the system from there.
+
+** AUR Helper
+A big big part of Arch is the AUR where one can find a package of almost anything. To install these packages, using an AUR helper is recommended. My preferred AUR helper right now is =paru= which can be installed by following the following commands:
+
+#+begin_src shell
+  git clone https://aur.archlinux.org/paru.git
+  cd paru
+  makepkg -si
+#+end_src
+
+=paru= can now be used to install any required packages from the arch repositories or the AUR. A list of my preferred utilities can be installed using the command
+
+#+begin_src shell
+  paru -S feh lemonbar picom wireless_tools alsa-utils pulseaudio pulseaudio-alsa xtitle tdrop ttf-iosevka ttf-hack ttf-fira-go ttf-jetbrains-mono libnotify dunst mu isync tmux firefox chromium slock bat mpv arc-gtk-theme arc-icon-theme pcmanfm-gtk3 xorg-xfd brightnessctl wget tldr evince pass unzip usbutils
+#+end_src
+
+For a program launcher, I am currently using a patched version of =dmenu=, including the linewidth, and fuzzy search+highlight patches. It can be installed by building it using the code from the suckless website.
+
+#+begin_src shell
+  git clone https://git.suckless.org/dmenu
+  cd dmenu
+  sudo make clean install
+#+end_src
+
+
+A detailed list of packages, classified on the basis of purpose and requirement shall be the subject of another post. I also plan to write a post on the BSPWM config and other tools I like in my setup.
