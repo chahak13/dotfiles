@@ -1,4 +1,4 @@
-# -*- conf -*-
+]# -*- conf -*-
 # wm independent hotkeys
 #
 
@@ -30,17 +30,23 @@
 #    emacs    - hyper + e
 
 # hyper + o; {t, e, f, s, r, d}
-#     {kitty ,\
+#     { \
+#     kitty ,\
 #     emacsclient --create-frame --alternate-editor="",\
 #     firefox ,\
 #     surf "duckduckgo.com",\
 #     rofi -combi-modi window,drun,run,ssh,keys -show combi -modi combi -show-icons,\
-#     dmenu_run}
+#     dmenu_run \
+#     }
     
 # terminal emulator
 hyper + Return
     kitty
 
+# Extra terminal
+super + Return
+      kitty
+      
 # scratchpad-tdrop. Calls a drop-down terminal
 hyper + d
     tdrop -m -a -w 50% -h 40% -x 25% -y 5% -s dropdown kitty
@@ -58,9 +64,9 @@ hyper + alt + l
     slock
 
 # program launcher
-hyper + p
-      dmenu_run -h 24 -F
-      # rofi -combi-modi window,drun,run,ssh,keys -show combi -modi combi -show-icons
+hyper + @space
+      ~/.config/bin/dmenu_run_history -h 24 -fn Iosevka
+	# dmenu_run -h 24 -fn Iosevka
 
 # make sxhkd reload its configuration files:
 hyper + Escape
@@ -69,6 +75,23 @@ hyper + Escape
 # Lemonbar
 hyper + backslash
       repanel
+
+# Reset theme
+# hyper + t ; {r, t}
+#       {\
+#       theme reset, \
+#       theme toggle, \
+#       }
+
+
+# hyper + t ; {f,s,p,t,x}
+#     { \
+#     bspwm_focus_mode, \
+#     pkill -USR1 -x sxhkd && notify-send -i key_bindings "Reloaded key bindings", \
+#     pkill -x melonpanel && melonpanel, \
+#     tempusmenu, \
+#     xrdb -I "$HOME" -merge "$HOME"/.Xresources \
+#     }
 
 #
 # bspwm hotkeys

@@ -1,6 +1,7 @@
 ;; Ivy
 (use-package counsel
-  :straight t)
+  :straight t
+  :diminish)
 
 (use-package swiper
   :straight t)
@@ -8,6 +9,7 @@
 (use-package ivy
   :straight t
   :after counsel swiper
+  :diminish
   :config
   (ivy-mode 1)
   (counsel-mode 1)
@@ -27,6 +29,7 @@
 
 (use-package ivy-posframe
   :straight t
+  :diminish 
   :config
   (setq ivy-posframe-height-alist
 	'((swiper . 20)
@@ -45,9 +48,31 @@
 ;; Amx package:
 ;; Amx is an alternative to M-x and is a fork of smex. It is
 ;; designed to work with multiple completion frameworks and is
-;; currently being used with ido.
+;; currently being used with ivy.
 (use-package amx
   :straight t
   :config
   (setq amx-backend 'auto)
   (amx-mode 1))
+
+;; Yasnippet for snippets
+(use-package yasnippet
+  :straight t
+  :diminish
+  :config
+  (yas-global-mode 1))
+
+(use-package yasnippet-snippets
+  :straight t
+  :after yasnippet)
+
+;; Company-mode
+(use-package company
+  :straight t
+  :diminish
+  :config
+  (global-company-mode)
+  (setq company-idle-delay 0.1)
+  (setq company-minimum-prefix-length 3)
+  (setq company-selection-wrap-around t)
+  )

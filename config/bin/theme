@@ -57,16 +57,18 @@ _toggle_wallpaper() {
 _set_emacs_theme() {
     local theme_to_set=$(</tmp/theme)
     if [[ $(ps -ef | grep "[e]macs --daemon") ]]; then
-	case "${theme_to_set}" in
-	    light)
-		emacsclient --alternate-editor="" --eval "(cm/load-theme 'modus-operandi)" \
-			    && notify-send -- "Emacs" "Set light theme"
-		;;
-	    dark)
-		emacsclient --alternate-editor="" --eval "(cm/load-theme 'modus-vivendi)" \
-			    && notify-send -- "Emacs" "Set dark theme"
-		;;
-	esac
+	# case "${theme_to_set}" in
+	#     light)
+	# 	emacsclient --alternate-editor="" --eval "(cm/load-theme 'modus-operandi)" \
+	# 		    && notify-send -- "Emacs" "Set light theme"
+	# 	;;
+	#     dark)
+	# 	emacsclient --alternate-editor="" --eval "(cm/load-theme 'modus-vivendi)" \
+	# 		    && notify-send -- "Emacs" "Set dark theme"
+	# 	;;
+	# esac
+	emacsclient --alternate-editor="" --eval "(cm/load-theme 'doom-horizon)" \
+		    && notify-send -- "Emacs" "Set theme"
     fi
 }
 

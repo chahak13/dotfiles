@@ -49,31 +49,37 @@ _br --add Slack desktop=^4 follow=off state=floating rectangle=800x600+100+30
 # Parse my custom key mappings.  These enable Mod3 ("Hyper") and make
 # some necessary adjustments to that end.  We need to evaluate this
 # first otherwise it might mess up with SXHKD.
-[ -f "$HOME"/.Xmodmap ] && xmodmap "$HOME"/.Xmodmap
+# [ -f "$HOME"/.Xmodmap ] && xmodmap "$HOME"/.Xmodmap
 
 if _check sxhkd; then
     pgrep -x sxhkd > /dev/null || sxhkd &
 fi
 
-if _check emacs; then
-    ps -ef | grep "[e]macs --daemon" || emacs --daemon
-fi
-
-if _check dunst; then
-    pgrep -x dunst > /dev/null || dunst &
+if _check feh; then
+	$HOME/.fehbg
 fi
 
 if _check picom; then
     pgrep picom > /dev/null || picom --experimental-backends &
 fi
 
-if _check feh; then
-    if [ -e $HOME/.config/bin/theme ]; then
-	$HOME/.config/bin/theme reset &
-    fi
+if _check dunst; then
+    pgrep -x dunst > /dev/null || dunst &
 fi
+
+# if _check feh; then
+#    ~/.fehbg
+#   if [ -e $HOME/.config/bin/theme ]; then
+#       $HOME/.config/bin/theme reset 
+#   fi
+# fi
 
 if _check panel; then
     pgrep lemonbar && pkill lemonbar
-    $HOME/.config/bin/panel &
+    $HOME/.config/bin/panel 
 fi
+
+if _check emacs; then
+    ps -ef | grep "[e]macs --daemon" || emacs --daemon
+fi
+

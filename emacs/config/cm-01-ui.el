@@ -16,11 +16,13 @@
 ;; Disable line numbers for some modes
 (dolist (mode '(org-mode-hook
 		eshell-mode-hook
-		Info-mode-hook))
+		Info-mode-hook
+		pdf-view-mode-hook))
   (add-hook mode (lambda () (display-line-numbers-mode 0))))
 
 ;; Set fonts and faces
-(defvar cm/default-font-size 125)
+(defvar cm/default-font-size 135)
 (defvar cm/default-variable-font-size 135)
 
 (put 'narrow-to-region 'disabled nil)
+(fset 'yes-or-no-p 'y-or-n-p)

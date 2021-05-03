@@ -10,13 +10,15 @@
 (use-package olivetti
   :straight t
   :diminish
-  :config
-  (setq olivetti-body-width 0.7)
-  (setq olivetti-minimum-body-width 80)
-  (setq olivetti-recall-visual-line-mode-entry-state t)
   :hook
   (org-mode-hook . olivetti-mode)
-  (Info-mode-hook . olivetti-mode))
+  (Info-mode-hook . olivetti-mode)
+  :config
+  ;; (setq olivetti-body-width 0.7)
+  (setq olivetti-minimum-body-width 120)
+  (setq olivetti-recall-visual-line-mode-entry-state t)
+  )
+
 
 
 ;; Aggressive indentation
@@ -26,14 +28,14 @@
 
 ;; Beginend
 ;; Meaningful M-< and M->
-;; (use-package beginend 
-;;   :straight t
-;;   :demand t
-;;   :diminish
-;;   :config 
-;;   (dolist (mode (cons 'beginend-global-mode (mapcar #'cdr beginend-modes)))
-;;           (diminish mode))
-;;   (beginend-global-mode))
+(use-package beginend 
+  :straight t
+  :demand t
+  :diminish
+  :config 
+  (dolist (mode (cons 'beginend-global-mode (mapcar #'cdr beginend-modes)))
+          (diminish mode))
+  (beginend-global-mode))
 
 ;; Hungry delete
 (use-package hungry-delete
@@ -51,11 +53,7 @@
   (setq rainbow-ansi-colors nil)
   (setq rainbow-x-colors nil))
 
-;; Telegram
-(use-package telega
-  :straight t
-  :commands (telega)
-  :defer t
-  :config
-  (setq telega-use-images t)
-  (setq telega-emoji-use-images t))
+;; Autothemer
+;; Themeing package for easier customization for Emacs.
+(use-package autothemer
+  :straight t)

@@ -6,7 +6,8 @@
   (setq dired-dwim-target t)
   (setq dired-hide-details-hide-symlink-targets nil)
   :bind (:map dired-mode-map
-	      ("+" . dired-create-empty-file))
+	      ("+" . dired-create-empty-file)
+	      ("E" . wdired-change-to-wdired-mode))
   :hook ((dired-mode-hook . dired-hide-details-mode)
 	 (dired-mode-hook . hl-line-mode)))
 

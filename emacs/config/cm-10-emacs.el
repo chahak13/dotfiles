@@ -2,7 +2,10 @@
   :ensure nil
   :bind (("s-q" . save-buffers-kill-emacs))
   :config
-  (global-hl-line-mode))
+  (show-paren-mode)
+  )
+;; :config
+;; (global-hl-line-mode))
 
 ;; Newcomment (built-in)
 ;; Rebind inbuilt comment function to better keys
@@ -35,9 +38,15 @@
 ;;   (ido-ubiquitous-mode 1))
 
 ;; Modus themes
-(use-package modus-themes
-  :straight t)
+;; (use-package modus-themes
+;;   :straight t)
 
 (use-package async
   :straight t)
+
+(use-package doom-themes
+  :straight t
+  :config
+  (load-theme 'doom-horizon t)
+  )
 

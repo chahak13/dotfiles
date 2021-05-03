@@ -45,6 +45,11 @@ fi
 f() { find . -iname "*$1*" ${@:2} }
 r() { grep "$1" ${@:2} -R . }
 
+# List top `n` pacman packages by 
+pactop() {
+    pacman -Qi | awk '/^Name/{name=$3} /^Installed Size/{print $4$5, name}' | sort -hr | head -"$1"
+}
+
 # Count files in a folder
 lwc() {
     local cdir="${1}"

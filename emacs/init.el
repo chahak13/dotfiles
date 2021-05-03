@@ -67,3 +67,6 @@
 (load-file "~/.emacs.d/config/cm-16-mu4e.el")
 (load-file "~/.emacs.d/config/cm-17-misc.el")
 (load-file "~/.emacs.d/config/cm-18-pdf-tools.el")
+(load-file "~/.emacs.d/config/cm-20-ledger.el")
+(load-file "~/.emacs.d/config/cm-21-bongo.el")
+(load-file "~/.emacs.d/config/cm-22-tex.el")

@@ -26,5 +26,6 @@
 ;; 	    (add-hook 'after-save-hook 'black-format-python-file nil 'local)))
 
 (defun cm/set-font-faces ()
+  (interactive)
   (set-face-attribute 'default nil :font "Hack" :height cm/default-font-size)
-  (set-face-attribute 'variable-pitch nil :font "FiraGo" :height cm/default-variable-font-size))
+  (set-face-attribute 'variable-pitch nil :font "JetBrains Mono" :height cm/default-variable-font-size))
