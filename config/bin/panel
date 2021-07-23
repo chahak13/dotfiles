@@ -123,4 +123,4 @@ _panel () {
 
 }
 
-_panel < "${panel_fifo}" | lemonbar -p -g "x${PANEL_HEIGHT}" -n "${PANEL_WM_NAME}" -f "${font_laptop}" -f "${font_monitor}" -B "${bg_main}" &
+_panel < "${panel_fifo}" | lemonbar -b -p -g "x${PANEL_HEIGHT}" -n "${PANEL_WM_NAME}" -f "${font_laptop}" -f "${font_monitor}" -B "${bg_main}" &

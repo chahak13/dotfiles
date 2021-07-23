@@ -4,6 +4,8 @@
 (use-package undo-tree
   :straight t
   :config
+  (setq undo-tree-auto-save-history t)
+  (setq undo-tree-history-directory-alist '(("." . "~/.emacs.d/undo-tree")))
   (global-undo-tree-mode))
 
 ;; Olivetti mode
@@ -18,13 +20,6 @@
   (setq olivetti-minimum-body-width 120)
   (setq olivetti-recall-visual-line-mode-entry-state t)
   )
-
-
-
-;; Aggressive indentation
-;; (use-package aggressive-indent
-;;   :straight t
-;;   :hook (prog-mode-hook . aggressive-indent-mode))
 
 ;; Beginend
 ;; Meaningful M-< and M->
@@ -53,7 +48,22 @@
   (setq rainbow-ansi-colors nil)
   (setq rainbow-x-colors nil))
 
-;; Autothemer
-;; Themeing package for easier customization for Emacs.
-(use-package autothemer
+;; ESS (Emacs Speaks Statistics)
+;; Provides major mode for R code
+(use-package ess
   :straight t)
+
+;; sx.el
+;; Stackoverflow in emacs
+(use-package sx
+  :straight t)
+
+;; Ripgrep
+(use-package rg
+  :straight t)
+
+;; HTMLize
+(use-package htmlize
+  :straight t)
+
+

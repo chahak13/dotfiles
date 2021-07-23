@@ -3,4 +3,5 @@
   :straight t
   :config
   (setq bongo-default-directory "~/Music")
+  (bongo-random-playback-mode)
   )

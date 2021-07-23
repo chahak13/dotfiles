@@ -64,8 +64,8 @@ hyper + alt + l
     slock
 
 # program launcher
-hyper + @space
-      ~/.config/bin/dmenu_run_history -h 24 -fn Iosevka
+hyper + space
+      ~/.config/bin/dmenu_run_history -b -h 24 -fn Iosevka
 	# dmenu_run -h 24 -fn Iosevka
 
 # make sxhkd reload its configuration files:

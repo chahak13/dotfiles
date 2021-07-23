@@ -2,9 +2,8 @@
 ;; Add dwim functions to "u" and "d" since the current names are
 ;; confusing.
 (use-package pdf-tools
-  :straight (:host github :repo "vedang/pdf-tools"
-		   :build "cd ~/.emacs.d/straight/build/pdf-tools/build/server && make")
-  ;; :defer
+  :straight t
+  :defer
   :magic ("%PDF" . pdf-view-mode)
   :bind (:map pdf-view-mode-map
 	      ("q" . bury-buffer)
@@ -16,6 +15,8 @@
 	      ("d" . pdf-view-scroll-up-or-next-page)
 	      ("M-i" . pdf-view-midnight-minor-mode))
   :config
-  (setq pdf-info-epdfinfo-program "/home/boticelli/.emacs.d/straight/build/pdf-tools/build/server/epdfinfo")
+  ;; (setq pdf-info-epdfinfo-program "/home/boticelli/.emacs.d/straight/build/pdf-tools/build/server/epdfinfo")
+  (setq pdf-annot-activate-created-annotations t)
   (pdf-tools-install)
+  ;; (pdf-annot-minor-mode)
   )

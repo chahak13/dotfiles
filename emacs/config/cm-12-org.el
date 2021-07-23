@@ -4,10 +4,20 @@
   (org-indent-mode)
   (visual-line-mode 1))
 
+(use-package ob-async
+  :straight t
+  :config
+  (setq ob-async-no-async-languages-alist '("jupyter-python"))
+  )
+
+(use-package jupyter
+  :straight t)
+
 (use-package org
   :straight t
   :hook
   (org-mode-hook . cm/org-setup)
+  (org-babel-after-execute-hook . org-redisplay-inline-images)
 
   :config
   (setq org-directory "~/org")
@@ -16,7 +26,7 @@
 	'("~/org"
 	  "~/.emacs.d"
 	  "~/Documents"))
-  (setq org-agenda-start-with-log-mode t)
+  (setq org-agenda-start-th-log-mode t)
   (setq org-log-done 'time)
   (setq org-log-into-drawer t)
   (setq org-deadline-warning-days 14)
@@ -67,15 +77,15 @@
 
   (org-babel-do-load-languages
    'org-babel-load-languages
-   '(
-     (emacs-lisp . t)
-     (python . t)
+   '((emacs-lisp . t)
      (shell . t)
-     ))
+     (python . t)
+     (jupyter . t)))
 
   (setq org-src-fontify-natively t)
+  (setq org-src-window-setup 'split-window-below)
   (setq org-confirm-babel-evaluate nil)
-
+  (setq org-edit-src-content-indentation 0)
   :bind
   (
    ("C-c a" . org-agenda)
@@ -125,6 +135,7 @@
 
   (add-to-list 'org-structure-template-alist '("sh" . "src shell"))
   (add-to-list 'org-structure-template-alist '("py" . "src python :results output, value"))
+  (add-to-list 'org-structure-template-alist '("ip" . "src jupyter-python :results raw drawer"))
   (add-to-list 'org-structure-template-alist '("el" . "src emacs-lisp")))
 		
 ;; org-bullets for better handling of org level markers
@@ -134,5 +145,30 @@
   :custom
   (org-bullets-bullet-list '("◉" "○" "●" "○" "●" "○" "●")))
 
-(use-package ob-async
+(setq org-publish-project-alist
+        '(("orgfiles"
+           :base-directory "~/org-roam/"
+	   :exclude "~/org-roam/notes/.ob-jupyter\\|*.undo-tree*"
+           :publishing-directory "~/Documents/ephemeris/"
+	   :recursive t
+	   :publishing-function org-html-publish-to-html
+           :section-numbers nil
+           :table-of-contents nil
+	   )
+	  ("images"
+	   :base-directory "~/org-roam/notes/images"
+	   :base-extension "jpg\\|gif\\|png"
+	   :publishing-directory "~/Documents/ephemeris/notes/images/"
+	   :recursive t
+	   :publishing-function org-publish-attachment)
+	  ))
+
+;; Org-tree-slides for presentation in org-mode
+(use-package org-tree-slide
   :straight t)
+
+;; Org-appear to toggle emphasis markers
+(use-package org-appear
+  :straight t
+  ;; :hook (org-mode-hook . org-appear-mode)
+  )

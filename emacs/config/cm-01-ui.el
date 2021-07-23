@@ -17,7 +17,9 @@
 (dolist (mode '(org-mode-hook
 		eshell-mode-hook
 		Info-mode-hook
-		pdf-view-mode-hook))
+		pdf-view-mode-hook
+		bongo-playlist-mode-hook
+		bongo-library-mode-hook))
   (add-hook mode (lambda () (display-line-numbers-mode 0))))
 
 ;; Set fonts and faces

@@ -76,6 +76,7 @@ fi
 
 export XDG_CONFIG_HOME="$HOME/.config"
 export PATH=$PATH:"$XDG_CONFIG_HOME/bin"
+export PATH="$HOME/.local/bin":$PATH
 source ~/.zprofile
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.

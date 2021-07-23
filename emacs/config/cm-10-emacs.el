@@ -3,9 +3,8 @@
   :bind (("s-q" . save-buffers-kill-emacs))
   :config
   (show-paren-mode)
+  (global-hl-line-mode)
   )
-;; :config
-;; (global-hl-line-mode))
 
 ;; Newcomment (built-in)
 ;; Rebind inbuilt comment function to better keys
