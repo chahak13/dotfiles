@@ -1,0 +1,65 @@
+IMAPAccount chahakcr7
+Host imap.gmail.com
+User chahakcr7@gmail.com
+PassCmd "pass Email/chahakcr7"
+SSLType IMAPS
+CertificateFile /etc/ssl/certs/ca-certificates.crt
+
+IMAPStore chahakcr7-gmail-remote
+Account chahakcr7
+
+MaildirStore chahakcr7-gmail-local
+Subfolders Verbatim
+Path ~/Mail/chahakcr7/
+Inbox ~/Mail/chahakcr7/Inbox
+
+Channel chahakcr7-gmail
+Far :chahakcr7-gmail-remote:
+Near :chahakcr7-gmail-local:
+Patterns * ![Gmail]* "[Gmail]/Sent Mail" "[Gmail]/Starred" "[Gmail]/All Mail" "[Gmail]/Trash"
+Create Both
+SyncState *
+
+IMAPAccount chahakmehta013
+Host imap.gmail.com
+User chahak.mehta013@gmail.com
+PassCmd "pass Email/chahakmehta013"
+SSLType IMAPS
+CertificateFile /etc/ssl/certs/ca-certificates.crt
+
+IMAPStore chahakmehta013-gmail-remote
+Account chahakmehta013
+
+MaildirStore chahakmehta013-gmail-local
+Subfolders Verbatim
+Path ~/Mail/chahakmehta013/
+Inbox ~/Mail/chahakmehta013/Inbox
+
+Channel chahakmehta013-gmail
+Far :chahakmehta013-gmail-remote:
+Near :chahakmehta013-gmail-local:
+Patterns * ![Gmail]* "[Gmail]/Sent Mail" "[Gmail]/Starred" "[Gmail]/All Mail" "[Gmail]/Trash"
+Create Both
+SyncState *
+
+IMAPAccount chahakut
+Host imap.gmail.com
+User chahak@utexas.edu
+PassCmd "pass UTA/gmail"
+SSLType IMAPS
+CertificateFile /etc/ssl/certs/ca-certificates.crt
+
+IMAPStore chahakut-gmail-remote
+Account chahakut
+
+MaildirStore chahakut-gmail-local
+Subfolders Verbatim
+Path ~/Mail/chahakut/
+Inbox ~/Mail/chahakut/Inbox
+
+Channel chahakut-gmail
+Far :chahakut-gmail-remote:
+Near :chahakut-gmail-local:
+Patterns * ![Gmail]* "[Gmail]/Sent Mail" "[Gmail]/Starred" "[Gmail]/All Mail" "[Gmail]/Trash"
+Create Both
+SyncState *
