@@ -76,8 +76,8 @@
 (load-file "~/.emacs.d/config/cm-21-bongo.el")
 (load-file "~/.emacs.d/config/cm-22-tex.el")
 (load-file "~/.emacs.d/config/cm-23-ref.el")
-(load-file "~/.emacs.d/config/cm-24-roam.el")
-(load-file "~/.emacs.d/config/cm-25-general.el")
+;; (load-file "~/.emacs.d/config/cm-24-roam.el")
+;; (load-file "~/.emacs.d/config/cm-25-general.el")
 ;; (load-file "~/.emacs.d/config/cm-26-evil.el")
 
 ;; ======= Programming =======

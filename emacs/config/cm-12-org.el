@@ -19,61 +19,35 @@
   (org-mode-hook . cm/org-setup)
   (org-babel-after-execute-hook . org-redisplay-inline-images)
 
+  :init
+  (setq org-directory "~/.org")
+  (setq cm/org-agenda-directory (concat org-directory "/gtd"))
+  (make-directory cm/org-agenda-directory t)
+
   :config
-  (setq org-directory "~/org")
-  (setq org-default-notes-file "~/org/notes.org")
-  (setq org-agenda-files
-	'("~/org"
-	  "~/.emacs.d"
-	  "~/Documents"))
-  (setq org-agenda-start-th-log-mode t)
   (setq org-log-done 'time)
   (setq org-log-into-drawer t)
   (setq org-deadline-warning-days 14)
   
-  (setq org-refile-targets
-	'((org-agenda-files . (:maxlevel . 9))
-	  (nil . (:maxlevel . 9))))
   (setq org-refile-use-outline-path t)
   (setq org-refile-allow-creating-parent-nodes 'confirm)
   (setq org-reverse-note-order nil)
 
   (advice-add 'org-refile :after 'org-save-all-org-buffers)
 
+  (setq org-fast-tag-selection-single-key nil)
+
   (setq org-todo-keywords
-	'((sequence "TODO(t)" "NEXT(n)" "WAITING(w@)" "|" "DONE(d)" "CANCELLED(c)")
-	  (sequence "TASK(T)")
-	  (sequence "MEETING(m)")
-	  (sequence "INACTIVE(i)" "SOMEDAY(s)" "|" "CANCELLED(c@/!)")))
+	'((sequence "TODO(t)" "NEXT(n)" "|" "DONE(d)" "CANCELLED(c)")
+	  (sequence "WAITING(w@/!)" "HOLD(h@/!)" "|" "CANCELLED(c@/!)")))
 
   (setq org-tag-alist
-	'(("work" . ?w)
-	  ("idea" . ?i)
-	  ("home" . ?h)
-	  ("note" . ?n)
-	  ("meeting" . ?m)
-	  ("cancelled" . ?c)))
+	'(("@work" . ?w)
+	  ("@home" . ?h)
+	  (:newline)
+	  ("CANCELLED" . ?c)))
 
-  (setq org-todo-state-tags-triggers
-	'(("CANCELLED" ("CANCELLED" . t))
-	  ("WAITING" ("SOMEDAY") ("INACTIVE") ("WAITING" . t))
-	  ("INACTIVE" ("WAITING") ("SOMEDAY") ("INACTIVE" . t))
-	  ("SOMEDAY" ("WAITING") ("INACTIVE") ("SOMEDAY" . t))
-	  (done ("WAITING") ("INACTIVE") ("SOMEDAY"))
-	  ("TODO" ("WAITING") ("CANCELLED") ("INACTIVE") ("SOMEDAY"))
-	  ("TASK" ("WAITING") ("CANCELLED") ("INACTIVE") ("SOMEDAY"))
-	  ("NEXT" ("WAITING") ("CANCELLED") ("INACTIVE") ("SOMEDAY"))
-	  ("PROJ" ("WAITING") ("CANCELLED") ("INACTIVE") ("SOMEDAY"))
-	  ("DONE" ("WAITING") ("CANCELLED") ("INACTIVE") ("SOMEDAY"))))
-  
-  (setq org-agenda-window-setup 'current-window)
-  (setq org-agenda-restore-windows-after-quit t)
   (setq org-tread-S-cursor-todo-selection-as-state-changes nil)
-
-  ;; (setq org-agenda-custom-commands
-  ;; 	'(("k" todo "MEETING")
-  ;; 	  )
-  ;; 	)
 
   (org-babel-do-load-languages
    'org-babel-load-languages
@@ -86,41 +60,64 @@
   (setq org-src-window-setup 'split-window-below)
   (setq org-confirm-babel-evaluate nil)
   (setq org-edit-src-content-indentation 0)
-  :bind
-  (
-   ("C-c a" . org-agenda)
-   ("<f12>" . org-agenda-list)
-   )
+
+  (setq org-columns-default-format "%40ITEM(Task) %Effort(EE){:} %CLOCKSUM(Time Spent) %SCHEDULED(Scheduled) %DEADLINE(Deadline)")
   )
 
-(use-package org-capture
+(use-package org-agenda
   :after org
   :config
+  (defun cm/switch-to-agenda ()
+    (interactive)
+    (setq org-agenda-files (directory-files-recursively cm/org-agenda-directory "\.org$"))
+    (org-agenda nil " " nil))
+
+  (setq org-start-th-log-mode t)
+  (setq org-agenda-window-setup 'current-window)
+  (setq org-agenda-restore-windows-after-quit t)
+  (setq org-refile-targets
+	'((org-agenda-files . (:maxlevel . 2))
+	  (nil . (:maxlevel . 2))))
+
+  
+  (setq org-agenda-prefix-format
+	'((agenda . " %i %-12:c%?-12t% s")
+          (todo   . " ")
+          (tags   . " %i %-12:c")
+          (search . " %i %-12:c")))
+
+  (setq org-agenda-custom-commands `((" " "Agenda"
+                                      ((agenda ""
+                                               ((org-agenda-span 'week)
+                                                (org-deadline-warning-days 365)))
+                                       (todo "TODO"
+                                             ((org-agenda-overriding-header "Inbox")
+                                              (org-agenda-files '(,(expand-file-name "inbox.org" cm/org-agenda-directory)))))
+                                       (todo "TODO"
+                                             ((org-agenda-overriding-header "Emails")
+                                              (org-agenda-files '(,(expand-file-name "emails.org" cm/org-agenda-directory)))))
+                                       (todo "NEXT"
+                                             ((org-agenda-overriding-header "In Progress")
+                                              (org-agenda-files '(,(expand-file-name "projects.org" cm/org-agenda-directory)))))
+                                       (todo "TODO"
+                                             ((org-agenda-overriding-header "Active Projects")
+                                              (org-agenda-skip-function #'cm/skip-projects)
+                                              (org-agenda-files '(,(expand-file-name "projects.org" cm/org-agenda-directory)))))
+                                       (todo "TODO"
+                                             ((org-agenda-overriding-header "One-off Tasks")
+                                              (org-agenda-files '(,(expand-file-name "next.org" cm/org-agenda-directory)))
+                                              (org-agenda-skip-function '(org-agenda-skip-entry-if 'deadline 'scheduled))))))))
+  :bind
+  (("C-c a" . cm/switch-to-agenda)
+   ("<f1>" . cm/switch-to-agenda)))
+
+(use-package org-capture
+  :after (org org-agenda)
+  :config
   (setq org-capture-templates
-	'(("t" "TODO" entry
-	   (file+headline "~/org/tasks.org" "Tasks to be done")
-	   "* TODO %U\n :PROPERTIES:\n :CONTEXT: %a\n :END:\n\n %i")
-	  ("i" "Idea" entry
-	   (file "~/org/ideas.org")
-	   "* SOMEDAY %?\n %i")
-	  ("s" "Study a topic" entry
-	   (file "~/org/learning.org")
-	   "* SOMEDAY %U\n :PROPERTIES:\n :CONTEXT: %a\n :END:\n\n %i")
-	  ("j" "Journal Entry" entry
-	   (file+olp+datetree "~/org/journal.org")
-	   "* %<%I:%M %p> - Journal :journal:\n\n%?\n\n" :clock-in :clock-resume)
-	  ("m" "Meeting" entry
-	   (file+headline "~/org/tasks.org" "Meetings")
-	   "* MEETING %U\n SCHEDULED: %t\n :PROPERTIES:\n :CONTEXT: %a\n :END:\n\n %i")
-	  ("w" "Watch" entry
-	   (file+headline "~/org/tasks.org" "To Watch")
-	   "* WATCH %? \n\n")
-	  ("r" "Reply to an email" entry
-	   (file+headline "tasks.org" "Mail correspondence")
-	   "* TODO %:subject\n SCHEDULED: %t\n :PROPERTIES:\n :CONTEXT: %a\n :END:\n\n %i %?")))
-  (setq org-capture-templates-contexts
-	'(("r" ((in-mode . "mu4e-headers-mode")
-		(in-mode . "mu4e:view-mode")))))
+	`(("i" "Inbox" entry (file ,(expand-file-name "inbox.org" cm/org-agenda-directory))
+	   "* TODO %?\n /Entered on/ %u")))
+
   :bind (("C-c c" . org-capture))
   )
 
@@ -140,7 +137,8 @@
 		
 ;; org-bullets for better handling of org level markers
 (use-package org-bullets
-  :after org-mode
+  :straight t
+  :after org
   :hook (org-mode-hook . org-bullets-mode)
   :custom
   (org-bullets-bullet-list '("◉" "○" "●" "○" "●" "○" "●")))
