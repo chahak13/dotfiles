@@ -61,6 +61,8 @@ in
       # Workaround for https://github.com/NixOS/nix/issues/9574
       nix-path = config.nix.nixPath;
       trusted-users = ["root" "chahak"];
+      substituters = ["https://hyprland.cachix.org"];
+      trusted-public-keys = ["hyprland.cachix.org-1:a7pgxzMz7+chwVL3/pzj6jIBMioiJM7ypFP8PwtkuGc="];
     };
     # Opinionated: disable channels
     channel.enable = false;
@@ -113,25 +115,29 @@ in
   };
 
   # X11 windowing system
-  services.xserver = {
+  # services.xserver = {
+  #   enable = true;
+
+  #   # Display Manager
+  #   displayManager = {
+  #     gdm.enable = true;
+  #   };
+
+  #   # Desktop Manager
+  #   desktopManager = {
+  #     gnome.enable = true;
+  #   };
+
+  #   # Keymaps
+  #   xkb = {
+  #     layout = "us";
+  #     variant = "";
+  #     options = "ctrl:nocaps";
+  #   };
+  # };
+  programs.hyprland = {
     enable = true;
-
-    # Display Manager
-    displayManager = {
-      gdm.enable = true;
-    };
-
-    # Desktop Manager
-    desktopManager = {
-      gnome.enable = true;
-    };
-
-    # Keymaps
-    xkb = {
-      layout = "us";
-      variant = "";
-      options = "ctrl:nocaps";
-    };
+    package = inputs.hyprland.packages.${pkgs.system}.hyprland;
   };
 
   # Enable CUPS to print docs
