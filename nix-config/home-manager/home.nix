@@ -44,12 +44,14 @@
     steam
     tmux
     zoxide
+    fd
   ];
 
   programs.home-manager.enable = true;
   programs.git.enable = true;
   programs.neovim.enable = true;
   programs.alacritty.enable = true;
+  programs.fd.enable = true;
   # programs.steam.enable = true;
 
   programs.fish = {
