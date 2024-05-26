@@ -7,12 +7,6 @@
   pkgs,
   ...
 }:
-let
-  emacsWithTreeSitter =
-    (pkgs.emacsPackagesFor pkgs.emacs).emacsWithPackages (epkgs: with epkgs; [
-      treesit-grammars.with-all-grammars
-    ]);
-in
 {
   # You can import other home-manager modules here
   imports = [
@@ -66,14 +60,14 @@ in
     '';
   };
 
-  programs.emacs = {
-    enable = true;
-    package = emacsWithTreeSitter;
-  };
-  services.emacs = {
-    enable = true;
-    package = emacsWithTreeSitter;
-  };
+  # programs.emacs = {
+  #   enable = true;
+  #   package = emacsWithTreeSitter;
+  # };
+  # services.emacs = {
+  #   enable = true;
+  #   package = emacsWithTreeSitter;
+  # };
 
   # home.file.".tmux.conf".source = "/home/chahak/.tmux.conf";
   programs.tmux = {

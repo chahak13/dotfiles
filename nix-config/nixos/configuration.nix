@@ -7,6 +7,12 @@
   pkgs,
   ...
 }:
+let
+  emacsWithTreeSitter =
+    (pkgs.emacsPackagesFor pkgs.emacs).emacsWithPackages (epkgs: with epkgs; [
+      treesit-grammars.with-all-grammars
+    ]);
+in
 {
   # You can import other NixOS modules here
   imports = [
@@ -154,6 +160,7 @@
     unzip
     killall
     mariadb
+    emacsWithTreeSitter
   ];
   environment = {
     variables.EDITOR = "nvim";
@@ -170,6 +177,10 @@
     package = pkgs.mariadb;
   };
 
+  services.emacs = {
+    enable = true;
+    package = emacsWithTreeSitter;
+  };
 
   virtualisation.docker.rootless = {
     enable = true;
