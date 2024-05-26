@@ -74,6 +74,10 @@ in
     package = emacsWithTreeSitter;
   };
 
+  home.file.".tmux.conf".source = "/home/chahak/.tmux.conf";
+  programs.tmux = {
+    enable = true;
+  };
   # Nicely reload system units when changing configs
   systemd.user.startServices = "sd-switch";
 
