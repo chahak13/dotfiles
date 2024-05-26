@@ -52,10 +52,10 @@ in
     zoxide
   ];
 
-  # Enable home-manager and git
   programs.home-manager.enable = true;
   programs.git.enable = true;
   programs.neovim.enable = true;
+  programs.alacritty.enable = true;
   # programs.steam.enable = true;
 
   programs.fish = {
@@ -80,7 +80,7 @@ in
     enable = true;
     mouse = true;
     sensibleOnTop = false;
-    shell = "${pkgs.fish}";
+    shell = "/etc/profiles/per-user/chahak/bin/fish";
     baseIndex = 1;
     terminal = "tmux-256color";
     historyLimit = 100000;
