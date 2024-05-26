@@ -44,6 +44,7 @@ in
     nil
     pyenv
     python312
+    python312Packages.pipx
     (poetry.override { python3 = python312; })
     ripgrep
     steam
@@ -74,9 +75,25 @@ in
     package = emacsWithTreeSitter;
   };
 
-  home.file.".tmux.conf".source = "/home/chahak/.tmux.conf";
+  # home.file.".tmux.conf".source = "/home/chahak/.tmux.conf";
   programs.tmux = {
     enable = true;
+    mouse = true;
+    sensibleOnTop = false;
+    shell = "${pkgs.fish}";
+    baseIndex = 1;
+    terminal = "tmux-256color";
+    historyLimit = 100000;
+    keyMode = "vi";
+    escapeTime = 0;
+    extraConfig = ''
+    # Source gruvbox theme for tmux
+    source-file ~/.dotfiles/tmux/tmux_gruvbox.conf
+
+    # Fix titlebar
+    set -g set-titles on
+    set -g set-titles-string "#T"
+    '';
   };
   # Nicely reload system units when changing configs
   systemd.user.startServices = "sd-switch";
