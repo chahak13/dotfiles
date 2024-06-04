@@ -45,6 +45,9 @@
     tmux
     zoxide
     fd
+    # Hyprland packages
+    bemenu
+    waybar
   ];
 
   programs.home-manager.enable = true;
