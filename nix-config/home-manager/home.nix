@@ -48,6 +48,7 @@
     # Hyprland packages
     bemenu
     waybar
+    swaybg
   ];
 
   programs.home-manager.enable = true;
