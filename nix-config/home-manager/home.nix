@@ -49,6 +49,7 @@
     bemenu
     waybar
     swaybg
+    brightnessctl
   ];
 
   programs.home-manager.enable = true;
