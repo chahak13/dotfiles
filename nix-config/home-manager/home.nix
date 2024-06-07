@@ -50,6 +50,7 @@
     waybar
     swaybg
     brightnessctl
+    font-awesome
   ];
 
   programs.home-manager.enable = true;
