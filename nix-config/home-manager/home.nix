@@ -51,6 +51,7 @@
     swaybg
     brightnessctl
     font-awesome
+    bluetuith                   # Nice TUI for bluetooth management
   ];
 
   programs.home-manager.enable = true;
