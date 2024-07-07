@@ -172,6 +172,10 @@ in
     killall
     mariadb
     emacsWithTreeSitter
+    mako                        # Notification display system
+    libnotify                   # To use `notify-send` to send notifications
+    upower
+    poweralertd
   ];
   environment = {
     variables.EDITOR = "nvim";
@@ -183,6 +187,8 @@ in
     jetbrains-mono
   ];
 
+  programs.dconf.enable = true;
+
   services.mysql = {
     enable = true;
     package = pkgs.mariadb;
@@ -192,6 +198,12 @@ in
     enable = true;
     package = emacsWithTreeSitter;
   };
+
+  services.upower = {
+    enable = true;
+    percentageLow = 20;
+  };
+
 
   virtualisation.docker.rootless = {
     enable = true;

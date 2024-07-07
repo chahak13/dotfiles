@@ -55,8 +55,6 @@
     brightnessctl
     font-awesome
     bluetuith                   # Nice TUI for bluetooth management
-    mako                        # Notification display system
-    libnotify                   # To use `notify-send` to send notifications
   ];
 
   programs.home-manager.enable = true;
@@ -117,6 +115,7 @@
   };
 
   services.mako.enable = true;
+  services.poweralertd.enable = true;
 
   # Nicely reload system units when changing configs
   systemd.user.startServices = "sd-switch";
