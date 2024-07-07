@@ -48,6 +48,7 @@
     fd
     tealdeer
     dconf
+    graphviz                    # Mainly used in roam graphs
     # Hyprland packages
     bemenu
     waybar
