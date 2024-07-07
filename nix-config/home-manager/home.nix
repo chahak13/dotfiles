@@ -32,6 +32,7 @@
     eza
     firefox
     fish
+    glib
     glibc
     htop
     jujutsu
@@ -46,6 +47,7 @@
     zoxide
     fd
     tealdeer
+    dconf
     # Hyprland packages
     bemenu
     waybar
@@ -103,6 +105,16 @@
     set -g set-titles-string "#T"
     '';
   };
+
+  # GTK Settings
+  programs.dconf.enable = true;
+  gtk = {
+    enable = true;
+    gtk3.extraConfig = {
+      "gtk-application-prefer-dark-theme" = true;
+    };
+  };
+
   # Nicely reload system units when changing configs
   systemd.user.startServices = "sd-switch";
 
