@@ -45,6 +45,7 @@
     tmux
     zoxide
     fd
+    tealdeer
     # Hyprland packages
     bemenu
     waybar
