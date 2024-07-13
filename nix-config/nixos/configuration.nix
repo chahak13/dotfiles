@@ -206,18 +206,18 @@ in
   };
 
 
-    services.greetd = let
-      tuigreet = "${pkgs.greetd.tuigreet}/bin/tuigreet";
-      hyprland-session = "${inputs.hyprland.packages.${pkgs.system}.hyprland}/share/wayland-sessions";
-    in {
-      enable = true;
-      settings = {
-        default_session = {
-          command = "${tuigreet} --time --remember --sessions ${hyprland-session} --cmd ~/.local/bin/wrappedhl";
-          user = "chahaĸ";
-        };
-      };
-    };
+    # services.greetd = let
+    #   tuigreet = "${pkgs.greetd.tuigreet}/bin/tuigreet";
+    #   hyprland-session = "${inputs.hyprland.packages.${pkgs.system}.hyprland}/share/wayland-sessions";
+    # in {
+    #   enable = true;
+    #   settings = {
+    #     default_session = {
+    #       command = "${tuigreet} --time --remember --sessions ${hyprland-session} --cmd ~/.local/bin/wrappedhl";
+    #       user = "chahaĸ";
+    #     };
+    #   };
+    # };
 
   systemd.services.greetd.serviceConfig = {
     Type = "idle";
