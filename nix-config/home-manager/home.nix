@@ -138,7 +138,7 @@
     maxIconSize = 64;
     defaultTimeout = 5000;
     ignoreTimeout = true;
-    font = "monospace 14";
+    font = "monospace 10";
     extraConfig = ''
     [urgency=low]
     border-color=#cccccc
