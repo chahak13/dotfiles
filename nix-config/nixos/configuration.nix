@@ -176,6 +176,7 @@ in
     libnotify                   # To use `notify-send` to send notifications
     upower
     poweralertd
+    greetd.tuigreet
   ];
   environment = {
     variables.EDITOR = "nvim";
@@ -204,6 +205,29 @@ in
     percentageLow = 20;
   };
 
+
+    services.greetd = let
+      tuigreet = "${pkgs.greetd.tuigreet}/bin/tuigreet";
+      hyprland-session = "${inputs.hyprland.packages.${pkgs.system}.hyprland}/share/wayland-sessions";
+    in {
+      enable = true;
+      settings = {
+        default_session = {
+          command = "${tuigreet} --time --remember --sessions ${hyprland-session} --cmd ~/.local/bin/wrappedhl";
+          user = "chahaĸ";
+        };
+      };
+    };
+
+  systemd.services.greetd.serviceConfig = {
+    Type = "idle";
+    StandardInput = "tty";
+    StandardOutput = "tty";
+    StandardError = "journal";
+    TTYReset = true;
+    TTYHangup = true;
+    TTYVTDisallocate = true;
+  };
 
   virtualisation.docker.rootless = {
     enable = true;
