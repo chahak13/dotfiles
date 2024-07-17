@@ -35,6 +35,7 @@
     glib
     glibc
     htop
+    jq
     jujutsu
     nil
     pyenv
