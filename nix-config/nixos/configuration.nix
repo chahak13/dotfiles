@@ -115,30 +115,30 @@ in
   };
 
   # X11 windowing system
-  # services.xserver = {
-  #   enable = true;
-
-  #   # Display Manager
-  #   displayManager = {
-  #     gdm.enable = true;
-  #   };
-
-  #   # Desktop Manager
-  #   desktopManager = {
-  #     gnome.enable = true;
-  #   };
-
-  #   # Keymaps
-  #   xkb = {
-  #     layout = "us";
-  #     variant = "";
-  #     options = "ctrl:nocaps";
-  #   };
-  # };
-  programs.hyprland = {
+  services.xserver = {
     enable = true;
-    package = inputs.hyprland.packages.${pkgs.system}.hyprland;
+
+    # Display Manager
+    displayManager = {
+      gdm.enable = true;
+    };
+
+    # Desktop Manager
+    desktopManager = {
+      gnome.enable = true;
+    };
+
+    # Keymaps
+    xkb = {
+      layout = "us";
+      variant = "";
+      options = "ctrl:nocaps";
+    };
   };
+  # programs.hyprland = {
+  #   enable = true;
+  #   package = inputs.hyprland.packages.${pkgs.system}.hyprland;
+  # };
 
   # Enable CUPS to print docs
   services.printing.enable = true;
