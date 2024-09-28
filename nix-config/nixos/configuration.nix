@@ -9,7 +9,7 @@
 }:
 let
   emacsWithTreeSitter =
-    (pkgs.emacsPackagesFor pkgs.emacs).emacsWithPackages (epkgs: with epkgs; [
+    (pkgs.emacsPackagesFor pkgs.emacs-unstable).emacsWithPackages (epkgs: with epkgs; [
       treesit-grammars.with-all-grammars
     ]);
 in
