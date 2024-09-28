@@ -11,6 +11,7 @@ let
   emacsWithTreeSitter =
     (pkgs.emacsPackagesFor pkgs.emacs-unstable).emacsWithPackages (epkgs: with epkgs; [
       treesit-grammars.with-all-grammars
+      vterm
     ]);
 in
 {
