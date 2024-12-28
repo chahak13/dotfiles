@@ -178,6 +178,7 @@ in
     upower
     poweralertd
     greetd.tuigreet
+    ntfs3g
   ];
   environment = {
     variables.EDITOR = "nvim";
