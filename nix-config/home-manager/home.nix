@@ -57,6 +57,8 @@
     brightnessctl
     font-awesome
     bluetuith                   # Nice TUI for bluetooth management
+    vlc
+    mpv
   ];
 
   programs.home-manager.enable = true;
