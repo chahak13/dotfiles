@@ -59,6 +59,7 @@
     bluetuith                   # Nice TUI for bluetooth management
     vlc
     mpv
+    hledger
   ];
 
   programs.home-manager.enable = true;
@@ -109,6 +110,7 @@
     historyLimit = 100000;
     keyMode = "vi";
     escapeTime = 0;
+    prefix = "C-f";
     extraConfig = ''
     # Source gruvbox theme for tmux
     source-file ~/.dotfiles/tmux/tmux_gruvbox.conf
