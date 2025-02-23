@@ -113,7 +113,7 @@
     prefix = "C-f";
     extraConfig = ''
     # Set default shell as bash
-    set-option -g default-shell /usr/bin/fish
+    # set-option -g default-shell /usr/bin/fish
 
     # Set to 256 colors
     set -g default-terminal "tmux-256color"
@@ -121,7 +121,7 @@
     source-file ~/.dotfiles/tmux/tmux_gruvbox.conf
 
     # Reload tmux configuration file with C-r
-    bind C-r source-file ~/.tmux.conf \; display-message "configuration reloaded"
+    # bind C-r source-file ~/.tmux.conf \; display-message "configuration reloaded"
 
     # Split panes vertically (Horizontal split is by " (default))
     bind | split-window -h
