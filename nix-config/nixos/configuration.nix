@@ -103,7 +103,7 @@ in
       # Be sure to change it (using passwd) after rebooting!
       isNormalUser = true;
       description = "Chahak Mehta";
-      extraGroups = ["wheel" "networkmanager"];
+      extraGroups = ["wheel" "networkmanager" "docker"];
     };
   };
 
@@ -231,9 +231,8 @@ in
     TTYVTDisallocate = true;
   };
 
-  virtualisation.docker.rootless = {
+  virtualisation.docker = {
     enable = true;
-    setSocketVariable = true;
   };
   # https://nixos.wiki/wiki/FAQ/When_do_I_update_stateVersion
   system.stateVersion = "23.11";
