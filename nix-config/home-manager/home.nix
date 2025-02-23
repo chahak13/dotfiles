@@ -112,12 +112,60 @@
     escapeTime = 0;
     prefix = "C-f";
     extraConfig = ''
+    # Set default shell as bash
+    set-option -g default-shell /usr/bin/fish
+
+    # Set to 256 colors
+    set -g default-terminal "tmux-256color"
     # Source gruvbox theme for tmux
     source-file ~/.dotfiles/tmux/tmux_gruvbox.conf
+
+    # Reload tmux configuration file with C-r
+    bind C-r source-file ~/.tmux.conf \; display-message "configuration reloaded"
+
+    # Split panes vertically (Horizontal split is by " (default))
+    bind | split-window -h
+
+    # Set scroll history to 1,00,000 lines
+    set-option -g history-limit 100000
+
+    # Renumber windows on moving/deleting
+    set-option -g renumber-windows on
+
+    # Change prefix
+    unbind C-b
+    set -g prefix C-f
+
+    # Start window indexing from 1 to match keyboard layout
+    set -g base-index 1
+
+    # Start pane indexing from 1 to match keyboard layout
+    set -g pane-base-index 1
 
     # Fix titlebar
     set -g set-titles on
     set -g set-titles-string "#T"
+
+    # Vim mode
+    set -g mode-keys vi
+
+    # Enable mouse
+    set -g mouse on
+
+    # Use vim bindings to move between panes
+    bind h select-pane -L
+    bind j select-pane -D
+    bind k select-pane -U
+    bind l select-pane -R
+
+    # reenable automatic renaming for the current window
+    bind N setw automatic-rename on \; display-message "automatic rename enabled"
+
+    # No waiting for escape sequences
+    set -sg escape-time 0
+
+    # Display pane numbers for longer time
+    set -g display-panes-time 2000
     '';
   };
 
