@@ -83,6 +83,7 @@
         fish_vi_key_bindings --no-erase
     end
     set -g fish_key_bindings fish_hybrid_key_bindings
+    set -x LEDGER_FILE ~/Documents/hledger/2025.journal
     '';
   };
 
